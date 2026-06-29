@@ -47,6 +47,17 @@
   .eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem}
   .intro h1{font-family:"Playfair Display",serif;font-size:clamp(2.4rem,6vw,4rem);line-height:1.05;font-weight:600}
   .intro p{color:var(--ink-soft);max-width:34rem;margin-top:1rem}
+  .cover{position:relative;z-index:5;height:320vh}
+  .cover-sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:transparent}
+  #seq{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .cover-veil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(237,239,242,.22),rgba(237,239,242,0) 35%,rgba(237,239,242,0) 70%,rgba(237,239,242,.18))}
+  .cover-title{position:absolute;left:0;right:0;top:15vh;text-align:center;padding:0 1.5rem;z-index:3;will-change:transform,opacity}
+  .cover-title h1{font-family:"Playfair Display",serif;font-size:clamp(2.8rem,9vw,6rem);line-height:1;font-weight:600;color:var(--ink)}
+  .cover-title .eyebrow{margin-bottom:1rem}
+  .cover-title .lead{color:var(--ink-soft);max-width:38rem;margin:1.25rem auto 0;font-size:1.02rem;line-height:1.6}
+  .cover-cue{margin-top:1.5rem;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
+  .cover-cue::after{content:"";display:block;width:1px;height:36px;margin:.9rem auto 0;background:var(--ink);opacity:.35}
+  @media(prefers-reduced-motion:reduce){.cover{height:100vh}}
 
   .project{display:flex;flex-direction:column;gap:2.5rem;align-items:center;text-align:center;padding:4.5rem 0;border-top:1px solid rgba(43,47,69,.08)}
   .project .info{max-width:46rem}
@@ -117,6 +128,7 @@
   /* no rounded edges anywhere */
   *{border-radius:0 !important}
 </style>
+<script src="cms.js"></script>
 </head>
 <body>
 <canvas id="gridfx"></canvas>
@@ -133,12 +145,20 @@
   </nav>
 </header>
 
+<section class="cover">
+  <div class="cover-sticky">
+    <canvas id="seq"></canvas>
+    <div class="cover-veil"></div>
+    <div class="cover-title">
+      <p class="eyebrow">Selected work</p>
+      <h1>The <span class="gtext">gallery</span></h1>
+      <p class="lead" data-cms="gallery_intro">A walk through recent Elevé projects. Each is a 3D coverflow — it drifts on its own, swipe or use the arrows to glide through, pull the center card down to choose it, and click to scale it up.</p>
+      <p class="cover-cue">Scroll to enter</p>
+    </div>
+  </div>
+</section>
+
 <div class="wrap">
-  <section class="intro reveal">
-    <p class="eyebrow">Selected work</p>
-    <h1>The <span class="gtext">gallery</span></h1>
-    <p>A walk through recent Elevé projects. Each is a 3D coverflow — it drifts on its own, swipe or use the arrows to glide through, pull the center card down to choose it, and click to scale it up.</p>
-  </section>
   <div id="projects"></div>
 </div>
 
@@ -197,6 +217,7 @@
      desc:"A studio workplace built on calm — felt acoustics, warm timber desks and a library wall that anchors the social core.",
      chips:["Workplace","Acoustics","Library"],views:["Open plan","Library","Meeting","Lounge","Plan"]}
   ];
+  try{ var _c=(window.__CMS&&window.__CMS.gallery)||{}; projects.forEach(function(p,i){ var o=_c[i]; if(o){ if(o.name)p.name=o.name; if(o.loc)p.loc=o.loc; if(o.desc)p.desc=o.desc; if(o.img)p.cover=o.img; } }); }catch(e){}
 
   var host=document.getElementById("projects");
   projects.forEach(function(p,pi){
@@ -227,7 +248,7 @@
       var g=grads[(pi*2+i)%grads.length];
       var sd=document.createElement("div");
       sd.className="slide";
-      var gcss="linear-gradient(140deg,"+g[0]+","+g[1]+")";
+      var gcss=p.cover?"center/cover no-repeat url('"+p.cover+"')":"linear-gradient(140deg,"+g[0]+","+g[1]+")";
       sd.innerHTML='<div class="img" style="background:'+gcss+'"></div><div class="gloss"></div><div class="cap"><div><div class="t">'+views[i]+'</div><div class="s">'+p.name+'</div></div><div class="exp">\u2913 Choose \u00b7 click to scale</div></div>';
       sd.dataset.g=gcss; sd.dataset.cap=p.name+" \u2014 "+views[i];
       sd.addEventListener("click",function(){ if(moved)return; var idx=slides.indexOf(this); if(relOf(idx)===0){ openLightbox(this.dataset.g,this.dataset.cap,this.getBoundingClientRect()); } else { index=idx; layout(); setDots(); restart(); } });
@@ -360,6 +381,33 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
   document.addEventListener("mouseout",function(e){ if(e.target.closest&&e.target.closest(SEL)) ring.classList.remove("hover"); });
   document.documentElement.addEventListener("mouseleave",function(){ dot.style.opacity=0; ring.style.opacity=0; });
   document.documentElement.addEventListener("mouseenter",function(){ dot.style.opacity=1; ring.style.opacity=1; });
+})();
+</script>
+<script>
+(function(){
+  var cv=document.getElementById("seq"); if(!cv) return;
+  var ctx=cv.getContext("2d"), N=74, frames=[], loaded=0;
+  function nm(i){ var s=""+i; while(s.length<5) s="0"+s; return "cover/cover_"+s+".jpg"; }
+  for(var i=0;i<N;i++){ var im=new Image(); im.src=nm(i); im.onload=function(){ loaded++; if(loaded===1){ resize(); } }; frames.push(im); }
+  var dpr=Math.min(2,window.devicePixelRatio||1), cw=0, ch=0, cur=0;
+  function resize(){ cw=cv.clientWidth; ch=cv.clientHeight; cv.width=cw*dpr; cv.height=ch*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); draw(cur); }
+  function draw(idx){ var im=frames[idx]; if(!im||!im.complete||!im.naturalWidth) return; cur=idx;
+    var iw=im.naturalWidth, ih=im.naturalHeight, sc=Math.max(cw/iw,ch/ih), w=iw*sc, h=ih*sc;
+    ctx.clearRect(0,0,cw,ch); ctx.drawImage(im,(cw-w)/2,(ch-h)/2,w,h); }
+  var cover=document.querySelector(".cover"), title=document.querySelector(".cover-title"), veil=document.querySelector(".cover-veil"), tick=false;
+  function onScroll(){ tick=false;
+    var total=cover.offsetHeight-window.innerHeight; if(total<=0){ draw(0); return; }
+    var p=Math.min(1,Math.max(0,(-cover.getBoundingClientRect().top)/total));
+    var idx=Math.min(N-1,Math.round(p*(N-1)));
+    draw(idx);
+    var fs=N-20, f=Math.min(1,Math.max(0,(idx-fs)/(N-1-fs)));
+    cv.style.opacity=(1-f).toFixed(3);
+    if(veil) veil.style.opacity=(1-f).toFixed(3);
+    if(title){ title.style.opacity=(1-Math.min(1,p*1.7)).toFixed(3); title.style.transform="translateY("+(-p*46).toFixed(1)+"px)"; }
+  }
+  window.addEventListener("scroll",function(){ if(!tick){ tick=true; requestAnimationFrame(onScroll); } },{passive:true});
+  window.addEventListener("resize",resize);
+  resize(); onScroll();
 })();
 </script>
 </body>

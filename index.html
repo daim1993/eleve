@@ -16,6 +16,9 @@
   }
 }
 </script>
+<script src="chair.glb.js"></script>
+<script src="models.glb.js"></script>
+<script src="cms.js"></script>
 <style>
   :root{
     --violet:#a7abb3; --periwinkle:#bcc0c7; --blush:#cfd2d7; --sky:#c3c7ce;
@@ -274,7 +277,7 @@
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-card glass-strong" id="heroText">
-        <span class="tag glass anim" style="transition-delay:.05s">Interior · Architecture · Exterior</span>
+        <span class="tag glass anim" style="transition-delay:.05s" data-cms="hero_tag">Interior · Architecture · Exterior</span>
         <h1>
           <span class="w"><span style="animation-delay:.15s">Where</span></span>
           <span class="w"><span style="animation-delay:.24s">space</span></span><br>
@@ -282,7 +285,7 @@
           <span class="w"><span class="gtext" style="animation-delay:.42s">emotion</span></span>
         </h1>
         <svg class="wave anim" style="transition-delay:.5s" width="120" height="12" viewBox="0 0 120 12" fill="none"><path d="M2 6c8-7 18-7 26 0s18 7 26 0 18-7 26 0 18 7 26 0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-        <p class="lead anim" style="transition-delay:.6s">Elevé is an elegant, minimalist studio shaping residential and commercial spaces — comfortable forms, modern lighting and quiet, considered detail.</p>
+        <p class="lead anim" style="transition-delay:.6s" data-cms="hero_lead">Elevé is an elegant, minimalist studio shaping residential and commercial spaces — comfortable forms, modern lighting and quiet, considered detail.</p>
         <div class="anim" style="display:flex;flex-wrap:wrap;gap:1rem;transition-delay:.72s">
           <a href="#portfolio" class="btn btn-primary">Explore our world</a>
           <a href="#contact" class="btn btn-ghost">Book a consultation →</a>
@@ -343,22 +346,22 @@
     </div>
     <div class="founder-grid">
       <div class="reveal glass portrait">
-        <div class="bg"></div>
+        <div class="bg" data-cms-img="founder_photo"></div>
         <div class="mono">CD</div>
         <div class="name glass">
-          <p style="font-family:'Playfair Display',serif;font-size:1.2rem">Camille Devereux</p>
-          <p style="font-size:.8rem;color:var(--ink-soft)">Founder · Lead Interior Designer</p>
+          <p style="font-family:'Playfair Display',serif;font-size:1.2rem" data-cms="founder_name">Camille Devereux</p>
+          <p style="font-size:.8rem;color:var(--ink-soft)" data-cms="founder_role">Founder · Lead Interior Designer</p>
         </div>
       </div>
       <div class="reveal">
-        <p style="font-size:1.05rem;color:var(--ink-soft)">Camille founded Elevé on a simple conviction: a room should feel inevitable — as if it could not have been arranged any other way. Trained in architecture in Paris and Lisbon, she spent a decade designing residences, ateliers and hospitality spaces before bringing that sensibility under one studio.</p>
-        <p style="margin-top:1rem;color:var(--ink-soft)">Her work is quiet and material-led: honest stone, warm timber, considered light, and just enough emptiness to let a space breathe. She leads every project personally, from first sketch to final styling.</p>
+        <p style="font-size:1.05rem;color:var(--ink-soft)" data-cms="founder_p1">Camille founded Elevé on a simple conviction: a room should feel inevitable — as if it could not have been arranged any other way. Trained in architecture in Paris and Lisbon, she spent a decade designing residences, ateliers and hospitality spaces before bringing that sensibility under one studio.</p>
+        <p style="margin-top:1rem;color:var(--ink-soft)" data-cms="founder_p2">Her work is quiet and material-led: honest stone, warm timber, considered light, and just enough emptiness to let a space breathe. She leads every project personally, from first sketch to final styling.</p>
         <div class="stat">
           <div><b>12</b><span>YEARS PRACTICING</span></div>
           <div><b>80+</b><span>SPACES DELIVERED</span></div>
           <div><b>6</b><span>DESIGN AWARDS</span></div>
         </div>
-        <blockquote class="founder-q">"I don't decorate rooms. I try to understand how someone wants to feel, then build the silence around it."</blockquote>
+        <blockquote class="founder-q" data-cms="founder_quote">"I don't decorate rooms. I try to understand how someone wants to feel, then build the silence around it."</blockquote>
       </div>
     </div>
   </section>
@@ -398,12 +401,12 @@
         <div>
           <p class="eyebrow">The studio</p>
           <h2 class="title" style="font-size:clamp(1.8rem,4vw,2.6rem)">Let's design something unforgettable</h2>
-          <p style="color:var(--ink-soft);margin-top:1rem;max-width:28rem">Tell us about your space. Elevé works with clients worldwide on residential, commercial and exterior projects of every scale.</p>
+          <p style="color:var(--ink-soft);margin-top:1rem;max-width:28rem" data-cms="c_intro">Tell us about your space. Elevé works with clients worldwide on residential, commercial and exterior projects of every scale.</p>
         </div>
         <div style="margin-top:2.5rem">
-          <p class="meta"><span>Studio</span> — 14 Rua das Flores, Lisbon</p>
-          <p class="meta"><span>Email</span> — creative@sentientbyelysian.com</p>
-          <p class="meta"><span>Phone</span> — +351 21 000 0000</p>
+          <p class="meta"><span>Studio</span> — <span data-cms="c_studio">14 Rua das Flores, Lisbon</span></p>
+          <p class="meta"><span>Email</span> — <span data-cms="c_email">creative@sentientbyelysian.com</span></p>
+          <p class="meta"><span>Phone</span> — <span data-cms="c_phone">+351 21 000 0000</span></p>
           <div class="socials"><span class="glass">IG</span><span class="glass">Be</span><span class="glass">Li</span><span class="glass">Pin</span></div>
         </div>
       </div>
@@ -415,7 +418,7 @@
       </form>
     </div>
     <footer>
-      <p>© <span id="yr"></span> Elevé Studio. All rights reserved.</p>
+      <p>© <span id="yr"></span> <span data-cms="footer">Elevé Studio. All rights reserved.</span></p>
       <p class="serif gtext">Where space becomes emotion</p>
     </footer>
   </section>
@@ -588,6 +591,7 @@
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { SSAOPass } from "three/addons/postprocessing/SSAOPass.js";
@@ -704,6 +708,57 @@ function boot(){
     cubes.push({ mesh, body, s });
   }
 
+  // ---- load uploaded chair model and drop a few into the scene ----
+  if (window.__CHAIR_GLB){
+    new GLTFLoader().load(window.__CHAIR_GLB, function(gltf){
+      var proto = gltf.scene;
+      proto.traverse(function(o){ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; o.material=new THREE.MeshStandardMaterial({color:0x8b8f97, roughness:0.85, metalness:0}); } });
+      var nChairs=6;
+      for (let i=0;i<nChairs;i++){
+        var chair=proto.clone(true);
+        var b0=new THREE.Box3().setFromObject(chair), sz0=new THREE.Vector3(); b0.getSize(sz0);
+        var sc=2.1/Math.max(sz0.x,sz0.y,sz0.z); chair.scale.setScalar(sc);
+        var b1=new THREE.Box3().setFromObject(chair), c1=new THREE.Vector3(), sz1=new THREE.Vector3(); b1.getCenter(c1); b1.getSize(sz1);
+        chair.position.sub(c1);
+        var holder=new THREE.Group(); holder.add(chair);
+        var x=(Math.random()*2-1)*(ARENA-2.2), z=(Math.random()*2-1)*(DEPTH-0.9), y=7+i*1.6;
+        holder.position.set(x,y,z); scene.add(holder);
+        var body=new CANNON.Body({
+          mass: Math.max(0.6, sz1.x*sz1.y*sz1.z*6),
+          shape: new CANNON.Box(new CANNON.Vec3(sz1.x/2, sz1.y/2, sz1.z/2)),
+          material: mat, position: new CANNON.Vec3(x,y,z),
+          angularDamping:0.3, linearDamping:0.03, allowSleep:true, sleepSpeedLimit:0.25, sleepTimeLimit:0.6
+        });
+        body.quaternion.setFromEuler((Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9);
+        world.addBody(body); holder.userData.body=body; cubes.push({ mesh:holder, body:body, s:Math.max(sz1.x,sz1.y,sz1.z) });
+      }
+    }, undefined, function(err){ /* model failed to load -> ignore */ });
+  }
+
+  if (window.__MODELS){
+    var gl2=new GLTFLoader();
+    window.__MODELS.forEach(function(md){
+      gl2.load(md.uri, function(gltf){
+        var proto=gltf.scene;
+        proto.traverse(function(o){ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; o.material=new THREE.MeshStandardMaterial({color:0x8b8f97, roughness:0.85, metalness:0}); } });
+        var n=md.count||2;
+        for (let i=0;i<n;i++){
+          var obj=proto.clone(true);
+          var b0=new THREE.Box3().setFromObject(obj), sz0=new THREE.Vector3(); b0.getSize(sz0);
+          var sc=2.1/Math.max(sz0.x,sz0.y,sz0.z); obj.scale.setScalar(sc);
+          var b1=new THREE.Box3().setFromObject(obj), c1=new THREE.Vector3(), sz1=new THREE.Vector3(); b1.getCenter(c1); b1.getSize(sz1);
+          obj.position.sub(c1);
+          var holder=new THREE.Group(); holder.add(obj);
+          var x=(Math.random()*2-1)*(ARENA-2.2), z=(Math.random()*2-1)*(DEPTH-0.9), y=8+i*1.7;
+          holder.position.set(x,y,z); scene.add(holder);
+          var body=new CANNON.Body({ mass:Math.max(0.5, sz1.x*sz1.y*sz1.z*6), shape:new CANNON.Box(new CANNON.Vec3(sz1.x/2,sz1.y/2,sz1.z/2)), material:mat, position:new CANNON.Vec3(x,y,z), angularDamping:0.3, linearDamping:0.03, allowSleep:true, sleepSpeedLimit:0.25, sleepTimeLimit:0.6 });
+          body.quaternion.setFromEuler((Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9);
+          world.addBody(body); holder.userData.body=body; cubes.push({ mesh:holder, body:body, s:Math.max(sz1.x,sz1.y,sz1.z) });
+        }
+      }, undefined, function(){});
+    });
+  }
+
   // dragging via ray → z=0 plane, velocity "tractor"
   const raycaster = new THREE.Raycaster();
   const ndc = new THREE.Vector2();
@@ -721,9 +776,11 @@ function boot(){
   function onDown(e){
     setNDC(e);
     raycaster.setFromCamera(ndc, camera);
-    const hits = raycaster.intersectObjects(cubes.map(c=>c.mesh), false);
+    const hits = raycaster.intersectObjects(cubes.map(c=>c.mesh), true);
     if (hits.length){
-      dragBody = hits[0].object.userData.body;
+      var o=hits[0].object; while(o && !o.userData.body) o=o.parent;
+      if(!o){ return; }
+      dragBody = o.userData.body;
       dragBody.wakeUp();
       wrap.classList.add("grabbing");
       camera.getWorldDirection(camDir);
