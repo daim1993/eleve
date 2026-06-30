@@ -19,6 +19,7 @@
 <script src="chair.glb.js"></script>
 <script src="models.glb.js"></script>
 <script src="cms.js"></script>
+<script src="cubes-sfx.js"></script>
 <style>
   :root{
     --violet:#a7abb3; --periwinkle:#bcc0c7; --blush:#cfd2d7; --sky:#c3c7ce;
@@ -63,7 +64,7 @@
   @keyframes drift2{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-9vw,-7vh) scale(.92)}}
   @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,-9vh) scale(1.18)}}
   #particles{position:fixed;inset:0;z-index:0;width:100%;height:100%;opacity:.32;pointer-events:none}
-  #gridfx{position:fixed;inset:0;z-index:0;width:100%;height:100%;pointer-events:none}
+  #gridfx{position:fixed;inset:0;z-index:3;width:100%;height:100%;pointer-events:none}
 
   /* ---- glass (clear frost, not milky) ---- */
   .glass{background:linear-gradient(#ecedf0,#ecedf0) padding-box,linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,255,255,.2) 30%,rgba(23,24,27,.10) 68%,rgba(255,255,255,.55)) border-box;border:1.5px solid transparent;box-shadow:9px 9px 22px rgba(23,24,27,.09),-8px -8px 18px rgba(255,255,255,.85),inset 1px 1px 1.5px rgba(255,255,255,.92),inset -1.5px -1.5px 2px rgba(23,24,27,.06)}
@@ -265,6 +266,7 @@
       <li><a href="#founder">Founder</a></li>
       <li><a href="#testimonials">Voices</a></li>
       <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="materials.html">Materials</a></li>
       <li><a href="builder.html">Builder</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -662,6 +664,31 @@ function boot(){
   // physics
   const world = new CANNON.World({ gravity: new CANNON.Vec3(0, -16, 0) });
   world.allowSleep = true;
+
+  /* wood-tap collision sound (uploaded sample, pitch varies with impact speed) */
+  var sctx=null, lastStone=0, cbuf=null, cbufLoading=false;
+  function ensureCtx(){ if(!sctx){ try{ sctx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(sctx&&sctx.state==="suspended") sctx.resume(); loadBuf(); }
+  function loadBuf(){ if(cbuf||cbufLoading||!sctx||!window.__CUBE_SFX) return; cbufLoading=true; fetch(window.__CUBE_SFX).then(function(r){return r.arrayBuffer();}).then(function(b){return sctx.decodeAudioData(b);}).then(function(buf){cbuf=buf;}).catch(function(){cbufLoading=false;}); }
+  window.addEventListener("pointerdown",ensureCtx,true);
+  function stone(v){
+    if(v<4.5) return;
+    if(window.__sfx && window.__sfx.isMuted && window.__sfx.isMuted()) return;
+    var now=performance.now(); if(now-lastStone<38) return; lastStone=now;
+    ensureCtx(); if(!cbuf) return;
+    try{
+      var spd=Math.min(1,(v-4.5)/11);                                  // 0 = light .. 1 = heavy slam
+      var src=sctx.createBufferSource(); src.buffer=cbuf;
+      // softer = higher/lighter, stronger = deeper/heavier; + random variation
+      src.playbackRate.value=0.92 - spd*0.5 + (Math.random()*0.1-0.05);  // deep overall
+      var vol=0.08 + Math.pow(spd,0.8)*0.5 + Math.random()*0.03;          // quieter
+      var g=sctx.createGain(); g.gain.value=Math.min(0.7, vol);
+      // a touch of low-end weight on the hardest hits
+      if(spd>0.55){ var lp=sctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=1200+(1-spd)*2000; src.connect(lp); lp.connect(g); }
+      else { src.connect(g); }
+      g.connect(sctx.destination); src.start();
+    }catch(e){}
+  }
+  function attachStone(b){ b.addEventListener("collide",function(e){ var v=e.contact?Math.abs(e.contact.getImpactVelocityAlongNormal()):0; stone(v); }); }
   world.solver.iterations = 12;
   const mat = new CANNON.Material("box");
   world.defaultContactMaterial = new CANNON.ContactMaterial(mat, mat, { friction:0.45, restitution:0.06 });
@@ -705,7 +732,7 @@ function boot(){
     body.quaternion.setFromEuler((Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9);
     world.addBody(body);
     mesh.userData.body = body;
-    cubes.push({ mesh, body, s });
+    attachStone(body); cubes.push({ mesh, body, s });
   }
 
   // ---- load uploaded chair model and drop a few into the scene ----
@@ -730,7 +757,7 @@ function boot(){
           angularDamping:0.3, linearDamping:0.03, allowSleep:true, sleepSpeedLimit:0.25, sleepTimeLimit:0.6
         });
         body.quaternion.setFromEuler((Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9);
-        world.addBody(body); holder.userData.body=body; cubes.push({ mesh:holder, body:body, s:Math.max(sz1.x,sz1.y,sz1.z) });
+        world.addBody(body); attachStone(body); holder.userData.body=body; cubes.push({ mesh:holder, body:body, s:Math.max(sz1.x,sz1.y,sz1.z) });
       }
     }, undefined, function(err){ /* model failed to load -> ignore */ });
   }
@@ -753,7 +780,7 @@ function boot(){
           holder.position.set(x,y,z); scene.add(holder);
           var body=new CANNON.Body({ mass:Math.max(0.5, sz1.x*sz1.y*sz1.z*6), shape:new CANNON.Box(new CANNON.Vec3(sz1.x/2,sz1.y/2,sz1.z/2)), material:mat, position:new CANNON.Vec3(x,y,z), angularDamping:0.3, linearDamping:0.03, allowSleep:true, sleepSpeedLimit:0.25, sleepTimeLimit:0.6 });
           body.quaternion.setFromEuler((Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9,(Math.random()-0.5)*0.9);
-          world.addBody(body); holder.userData.body=body; cubes.push({ mesh:holder, body:body, s:Math.max(sz1.x,sz1.y,sz1.z) });
+          world.addBody(body); attachStone(body); holder.userData.body=body; cubes.push({ mesh:holder, body:body, s:Math.max(sz1.x,sz1.y,sz1.z) });
         }
       }, undefined, function(){});
     });
@@ -836,6 +863,7 @@ if(document.readyState==="complete")requestAnimationFrame(show);else window.addE
 setTimeout(show,1300);
 document.addEventListener("click",function(e){var a=e.target.closest?e.target.closest("a"):null;if(!a)return;var href=a.getAttribute("href")||"";if(a.target==="_blank"||e.metaKey||e.ctrlKey||e.shiftKey)return;if(href===""||href.charAt(0)==="#")return;if(/\.html(\?[^#]*)?(#.*)?$/.test(href)){e.preventDefault();pf.classList.remove("out");setTimeout(function(){window.location.href=href;},780);}});})();</script>
 
+
 <script>
 (function(){
   var cv=document.getElementById("gridfx"); if(!cv) return;
@@ -856,8 +884,7 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
     mx+=(tx-mx)*0.16; my+=(ty-my)*0.16;
     cx.clearRect(0,0,cw,ch);
     var ox=ax(), oy=ay();
-    /* the grid itself (same source as highlights -> always aligned) */
-    cx.strokeStyle="rgba(23,24,27,0.05)"; cx.lineWidth=1; cx.beginPath();
+    cx.strokeStyle="rgba(23,24,27,0.075)"; cx.lineWidth=1; cx.beginPath();
     for(var x=ox;x<=cw+1;x+=CELL){ var px=Math.round(x)+0.5; cx.moveTo(px,0); cx.lineTo(px,ch); }
     for(var y=oy;y<=ch+1;y+=CELL){ var py=Math.round(y)+0.5; cx.moveTo(0,py); cx.lineTo(cw,py); }
     cx.stroke();
@@ -876,25 +903,23 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
   frame();
 })();
 </script>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
 <script>
 (function(){
-  if(!(window.matchMedia&&matchMedia("(hover:hover) and (pointer:fine)").matches)) return;
-  var dot=document.createElement("div"); dot.id="cur-dot";
-  var ring=document.createElement("div"); ring.id="cur-ring";
-  document.body.appendChild(dot); document.body.appendChild(ring);
-  var mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-  function setT(el,x,y){ el.style.transform="translate("+x+"px,"+y+"px) translate(-50%,-50%)"; }
-  setT(dot,mx,my); setT(ring,rx,ry);
-  addEventListener("mousemove",function(e){ mx=e.clientX; my=e.clientY; setT(dot,mx,my); });
-  (function loop(){ rx+=(mx-rx)*0.2; ry+=(my-ry)*0.2; setT(ring,rx,ry); requestAnimationFrame(loop); })();
-  addEventListener("mousedown",function(){ ring.classList.add("down"); dot.classList.add("down"); });
-  addEventListener("mouseup",function(){ ring.classList.remove("down"); dot.classList.remove("down"); });
-  var SEL="a,button,input,select,textarea,canvas,.pill,.chip,.cbtn,.cdot,.dot,label,[role=button]";
-  document.addEventListener("mouseover",function(e){ if(e.target.closest&&e.target.closest(SEL)) ring.classList.add("hover"); });
-  document.addEventListener("mouseout",function(e){ if(e.target.closest&&e.target.closest(SEL)) ring.classList.remove("hover"); });
-  document.documentElement.addEventListener("mouseleave",function(){ dot.style.opacity=0; ring.style.opacity=0; });
-  document.documentElement.addEventListener("mouseenter",function(){ dot.style.opacity=1; ring.style.opacity=1; });
+  if(window.matchMedia&&matchMedia("(pointer:coarse)").matches) return;
+  var d=document.getElementById("cur-dot"), r=document.getElementById("cur-ring"); if(!d||!r) return;
+  var mx=0,my=0,rx=0,ry=0;
+  function setT(el,x,y){ el.style.transform="translate("+(x-el.offsetWidth/2)+"px,"+(y-el.offsetHeight/2)+"px)"; }
+  addEventListener("mousemove",function(e){ mx=e.clientX; my=e.clientY; setT(d,mx,my); });
+  addEventListener("mousedown",function(){ r.classList.add("down"); });
+  addEventListener("mouseup",function(){ r.classList.remove("down"); });
+  document.addEventListener("mouseover",function(e){ var i=e.target.closest&&e.target.closest("a,button,input,select,textarea,[role=button],.glass-hover,.proj,.pill,.chip"); r.classList.toggle("hover",!!i); });
+  (function loop(){ rx+=(mx-rx)*0.2; ry+=(my-ry)*0.2; setT(r,rx,ry); requestAnimationFrame(loop); })();
 })();
 </script>
+
+<script src="sfx.js"></script>
 </body>
 </html>

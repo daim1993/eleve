@@ -57,6 +57,8 @@
   .cover-title .lead{color:var(--ink-soft);max-width:38rem;margin:1.25rem auto 0;font-size:1.02rem;line-height:1.6}
   .cover-cue{margin-top:1.5rem;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
   .cover-cue::after{content:"";display:block;width:1px;height:36px;margin:.9rem auto 0;background:var(--ink);opacity:.35}
+  .cover-btn{margin-top:1.7rem;font-family:inherit;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ink);background:rgba(255,255,255,.45);border:1px solid var(--ink);border-radius:0;padding:.9rem 1.7rem;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background .25s,color .25s,transform .25s}
+  .cover-btn:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
   @media(prefers-reduced-motion:reduce){.cover{height:100vh}}
 
   .project{display:flex;flex-direction:column;gap:2.5rem;align-items:center;text-align:center;padding:4.5rem 0;border-top:1px solid rgba(43,47,69,.08)}
@@ -140,6 +142,7 @@
   <nav>
     <a href="index.html#services">Services</a>
     <a href="index.html#founder">Founder</a>
+    <a href="materials.html">Materials</a>
     <a href="builder.html">Builder</a>
     <a href="index.html#contact" class="back">Contact</a>
   </nav>
@@ -153,7 +156,7 @@
       <p class="eyebrow">Selected work</p>
       <h1>The <span class="gtext">gallery</span></h1>
       <p class="lead" data-cms="gallery_intro">A walk through recent Elevé projects. Each is a 3D coverflow — it drifts on its own, swipe or use the arrows to glide through, pull the center card down to choose it, and click to scale it up.</p>
-      <p class="cover-cue">Scroll to enter</p>
+      <button class="cover-btn" id="enterBtn">Enter the gallery</button>
     </div>
   </div>
 </section>
@@ -410,5 +413,51 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
   resize(); onScroll();
 })();
 </script>
+<script>
+(function(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var cur=window.scrollY||0, target=cur, running=false, ease=0.06, autoTween=null;
+  var locked=true, _root=document.documentElement; _root.style.overflow="hidden"; window.scrollTo(0,0);
+  (function(){ var eb=document.getElementById("enterBtn"); if(!eb) return;
+    eb.addEventListener("click",function(){ locked=false; _root.style.overflow=""; var cv=document.querySelector(".cover"); if(cv) autoScrollTo(Math.min(maxY(),cv.offsetTop+cv.offsetHeight-1)); });
+  })();
+  function maxY(){return Math.max(0,(document.documentElement.scrollHeight||document.body.scrollHeight)-window.innerHeight);}
+  function step(){ cur+=(target-cur)*ease; if(Math.abs(target-cur)<0.25){cur=target;window.scrollTo(0,cur);running=false;return;} window.scrollTo(0,cur); requestAnimationFrame(step); }
+  function easeInOut(t){ return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+  function autoScrollTo(toY){
+    var fromY=window.scrollY||window.pageYOffset||0, dist=toY-fromY;
+    if(Math.abs(dist)<2) return;
+    var dur=Math.min(2200,Math.max(1200,Math.abs(dist)*0.95)), t0=performance.now(), id={}; autoTween=id;
+    (function frame(now){
+      if(autoTween!==id) return;            // interrupted
+      var p=Math.min(1,(now-t0)/dur), y=fromY+dist*easeInOut(p);
+      window.scrollTo(0,y);
+      if(p<1) requestAnimationFrame(frame); else { autoTween=null; target=cur=y; if(toY<=2){ locked=true; _root.style.overflow="hidden"; } }
+    })(performance.now());
+  }
+  window.addEventListener("wheel",function(e){
+    if(locked){ e.preventDefault(); return; }
+    if(e.ctrlKey) return;
+    var trackpad=(e.deltaMode===0 && Math.abs(e.deltaY)<50);
+    ease=trackpad?0.22:0.05;
+    e.preventDefault();
+    if(autoTween){ autoTween=null; }        // a scroll interrupts the auto-glide
+    else {
+      var _cv=document.querySelector(".cover");
+      if(_cv){
+        var cEnd=Math.min(maxY(),_cv.offsetTop+_cv.offsetHeight-1), yy=window.scrollY||window.pageYOffset||0;
+        if(e.deltaY>0 && yy<cEnd-2){ autoScrollTo(cEnd); return; }
+        if(e.deltaY<0 && yy>0 && yy<cEnd+window.innerHeight){ autoScrollTo(0); return; }
+      }
+    }
+    var d=e.deltaY*(e.deltaMode===1?16:(e.deltaMode===2?window.innerHeight:1));
+    target=Math.max(0,Math.min(maxY(),target+d));
+    if(!running){running=true;cur=window.scrollY;requestAnimationFrame(step);}
+  },{passive:false});
+  window.addEventListener("scroll",function(){ if(!running){cur=target=window.scrollY;} },{passive:true});
+  window.addEventListener("resize",function(){ target=Math.max(0,Math.min(maxY(),target)); });
+})();
+</script>
+<script src="sfx.js"></script>
 </body>
 </html>

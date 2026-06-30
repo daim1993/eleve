@@ -1,4 +1,4 @@
-Eleve — Interior + Exterior Design Studio
+# Elysian — Interior + Exterior Design Studio
 
 A glass-morphism marketing site built with **Next.js 14 (App Router)**, **Tailwind CSS**
 and **Framer Motion**, featuring a mouse-reactive particle network, drifting glow orbs,
