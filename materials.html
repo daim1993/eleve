@@ -89,6 +89,18 @@
   @media(prefers-reduced-motion:reduce){#pfade{display:none}.leaf{transition:none}}
 </style>
 <script src="page-turn.js"></script>
+<link rel="stylesheet" href="elevate.css">
+<script src="materials-data.js"></script>
+<script src="cms.js"></script>
+<meta name="description" content="The Elevé materials library — woods, stone, metals, textiles and glass, in an interactive book you can flip through.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Materials Library — Elevé">
+<meta property="og:description" content="The Elevé materials library — woods, stone, metals, textiles and glass, in an interactive book you can flip through.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#17181b">
+<link rel="icon" href="/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="/materials.html">
 </head>
 <body>
 <canvas id="gridfx"></canvas>
@@ -106,9 +118,9 @@
 
 <div class="mat-wrap">
   <div class="mat-intro">
-    <p class="eyebrow">Materials library</p>
+    <p class="eyebrow" data-cms="mat_eyebrow">Materials library</p>
     <h1>The <span class="gtext">material</span> of everything</h1>
-    <p>A tactile catalogue of the surfaces, woods, stones and textiles behind every Elevé interior. Grab the book and turn its pages.</p>
+    <p data-cms="mat_intro">A tactile catalogue of the surfaces, woods, stones and textiles behind every Elevé interior. Grab the book and turn its pages.</p>
   </div>
 
   <div class="book-row">
@@ -145,38 +157,12 @@
 <script>
 (function(){
   "use strict";
-  var CATS=[
-    {name:"Woods", sub:"Hardwoods & timber", items:[
-      {n:"Oak",cat:"Hardwood · natural",sw:"repeating-linear-gradient(91deg,#e9eaec,#e9eaec 5px,#e1e2e5 5px,#e1e2e5 11px),linear-gradient(180deg,#eef0f2,#e3e4e7)",d:"Warm, open-grained and forgiving. Pale oak brings quiet light into a room and ages with grace — our default for floors, joinery and tables.",p:[["Durability","High"],["Warmth","High"],["Cost","Mid"],["Upkeep","Low"]]},
-      {n:"Walnut",cat:"Hardwood · dark",sw:"repeating-linear-gradient(88deg,#b9bbc0,#b9bbc0 6px,#aeb0b5 6px,#aeb0b5 13px),linear-gradient(160deg,#c2c4c8,#a6a8ad)",d:"Deep, chocolate-toned and richly figured. Walnut anchors a space with gravitas — reserved for statement cabinetry and feature furniture.",p:[["Durability","High"],["Warmth","High"],["Cost","High"],["Upkeep","Mid"]]},
-      {n:"Ash",cat:"Hardwood · pale",sw:"repeating-linear-gradient(91deg,#eef0f2,#eef0f2 6px,#e7e9ec 6px,#e7e9ec 12px),linear-gradient(180deg,#f1f2f4,#e8e9ec)",d:"Bright, straight-grained and springy. Ash keeps interiors light and Scandinavian — beautiful for chairs, frames and slatted screens.",p:[["Durability","High"],["Warmth","Mid"],["Cost","Mid"],["Upkeep","Low"]]},
-      {n:"Teak",cat:"Hardwood · oily",sw:"repeating-linear-gradient(89deg,#d7d9dd,#d7d9dd 5px,#cdd0d4 5px,#cdd0d4 11px),linear-gradient(160deg,#dcdee1,#cbced2)",d:"Dense, oil-rich and weather-proof. Teak is the timber for bathrooms and exteriors — it shrugs off water and silvers gracefully outdoors.",p:[["Durability","High"],["Water","High"],["Cost","High"],["Upkeep","Low"]]}
-    ]},
-    {name:"Stone", sub:"Natural & quarried", items:[
-      {n:"Carrara Marble",cat:"Natural stone",sw:"linear-gradient(135deg,#f4f5f7,#e7e9ec),repeating-linear-gradient(58deg,transparent,transparent 22px,rgba(23,24,27,.07) 23px,transparent 26px)",d:"Cool, luminous and veined. A timeless surface for vanities and islands — soft enough to mark, which is part of its honesty.",p:[["Durability","Mid"],["Luxury","High"],["Cost","High"],["Upkeep","High"]]},
-      {n:"Travertine",cat:"Natural stone",sw:"radial-gradient(circle at 30% 30%,rgba(23,24,27,.05),transparent 12%),radial-gradient(circle at 70% 60%,rgba(23,24,27,.05),transparent 14%),linear-gradient(180deg,#edeef0,#e2e3e6)",d:"Porous, sandy and tactile. Banded travertine gives a grounded, Mediterranean calm — beautiful for plinths, sinks and cladding.",p:[["Durability","Mid"],["Warmth","Mid"],["Cost","Mid"],["Upkeep","Mid"]]},
-      {n:"Limestone",cat:"Sedimentary",sw:"linear-gradient(180deg,#eef0f2,#e3e5e8),radial-gradient(circle at 40% 40%,rgba(23,24,27,.04),transparent 20%)",d:"Soft, matte and chalky. Limestone floors feel barefoot-warm and understated — a quiet ground for both rustic and modern rooms.",p:[["Durability","Mid"],["Warmth","Mid"],["Cost","Mid"],["Upkeep","Mid"]]},
-      {n:"Slate",cat:"Metamorphic",sw:"repeating-linear-gradient(180deg,#b6b8bd,#b6b8bd 7px,#a9abb0 7px,#a9abb0 14px),linear-gradient(160deg,#bcbec3,#a3a5aa)",d:"Dark, layered and riven. Slate brings depth and grip — at home on hearths, wet-room floors and exterior thresholds.",p:[["Durability","High"],["Feel","Cool"],["Cost","Mid"],["Upkeep","Low"]]}
-    ]},
-    {name:"Metals", sub:"Worked & finished", items:[
-      {n:"Brushed Steel",cat:"Metal",sw:"repeating-linear-gradient(90deg,#dfe1e4,#eceef0 2px,#d6d8db 4px),linear-gradient(180deg,#e6e8ea,#cfd1d5)",d:"Crisp, matte and industrial. Brushed stainless reads precise and contemporary — frames, legs, kitchen surfaces and hardware.",p:[["Durability","High"],["Feel","Cool"],["Cost","Mid"],["Upkeep","Low"]]},
-      {n:"Blackened Brass",cat:"Metal · patina",sw:"linear-gradient(135deg,#bfc2c7,#9a9da3 60%,#86888d),radial-gradient(circle at 30% 25%,rgba(255,255,255,.25),transparent 30%)",d:"Dark, lustrous and characterful. Aged brass adds a jewel-like detail to handles, rails and lighting without shouting.",p:[["Durability","High"],["Luxury","High"],["Cost","High"],["Upkeep","Mid"]]},
-      {n:"Bronze",cat:"Cast alloy",sw:"linear-gradient(135deg,#cccfd3,#a7aab0 60%,#94969c)",d:"Heavy, warm-toned and enduring. Cast bronze suits ironmongery and feet — it develops a living patina that reads as age, not wear.",p:[["Durability","High"],["Luxury","High"],["Cost","High"],["Upkeep","Mid"]]},
-      {n:"Blackened Steel",cat:"Metal · matte",sw:"linear-gradient(135deg,#9a9da3,#7e8086),repeating-linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.06) 2px,transparent 2px,transparent 5px)",d:"Inky, raw and architectural. Blackened steel frames glazing and shelving with a confident, gallery-like line.",p:[["Durability","High"],["Look","Bold"],["Cost","Mid"],["Upkeep","Mid"]]}
-    ]},
-    {name:"Textiles", sub:"Soft & woven", items:[
-      {n:"Linen",cat:"Textile · natural",sw:"repeating-linear-gradient(0deg,#e9eaec,#e9eaec 3px,#e2e3e6 3px,#e2e3e6 6px),repeating-linear-gradient(90deg,rgba(23,24,27,.04),rgba(23,24,27,.04) 3px,transparent 3px,transparent 6px)",d:"Breathable, relaxed and honest. Washed linen drapes and upholsters with an easy, lived-in softness that only improves with use.",p:[["Comfort","High"],["Feel","Soft"],["Cost","Mid"],["Upkeep","Mid"]]},
-      {n:"Bouclé Wool",cat:"Textile · pile",sw:"radial-gradient(circle at 25% 25%,rgba(23,24,27,.06) 2px,transparent 3px),radial-gradient(circle at 60% 55%,rgba(23,24,27,.06) 2px,transparent 3px),linear-gradient(180deg,#eef0f2,#e3e5e8)",d:"Looped, plush and sculptural. Bouclé gives armchairs and headboards a soft, cloud-like texture and a tactile invitation to sit.",p:[["Comfort","High"],["Feel","Plush"],["Cost","High"],["Upkeep","Mid"]]},
-      {n:"Tan Leather",cat:"Hide · aniline",sw:"linear-gradient(160deg,#dadce0,#c6c8cd),radial-gradient(circle at 70% 30%,rgba(255,255,255,.25),transparent 35%)",d:"Supple, warm and enduring. Full-grain leather develops a patina that records a life of use — the soul of a good lounge chair.",p:[["Durability","High"],["Warmth","High"],["Cost","High"],["Upkeep","Mid"]]},
-      {n:"Velvet",cat:"Textile · sheen",sw:"linear-gradient(135deg,#cfd2d7,#b9bcc2),radial-gradient(circle at 30% 25%,rgba(255,255,255,.3),transparent 40%)",d:"Dense, light-catching and opulent. Velvet shifts tone as you move past it — a touch of drama for occasional chairs and headboards.",p:[["Comfort","High"],["Luxury","High"],["Cost","High"],["Upkeep","Mid"]]}
-    ]},
-    {name:"Glass", sub:"Light & transparency", items:[
-      {n:"Reeded Glass",cat:"Glass · textured",sw:"repeating-linear-gradient(90deg,#eef0f2,#eef0f2 5px,#dfe2e6 6px,#eef0f2 7px),linear-gradient(180deg,#f1f2f4,#e7e9ec)",d:"Vertically fluted and privacy-giving. Reeded glass diffuses light into soft stripes — lovely for doors, partitions and cabinet fronts.",p:[["Light","Diffuse"],["Privacy","Mid"],["Cost","Mid"],["Upkeep","Low"]]},
-      {n:"Frosted Glass",cat:"Glass · etched",sw:"linear-gradient(135deg,#eceef1,#dfe1e5),radial-gradient(circle at 40% 35%,rgba(255,255,255,.4),transparent 50%)",d:"Acid-etched and milky. Frosted panels soften daylight and hide what is behind — bathrooms, screens and luminous ceilings.",p:[["Light","Soft"],["Privacy","High"],["Cost","Mid"],["Upkeep","Low"]]},
-      {n:"Clear Float",cat:"Glass · clear",sw:"linear-gradient(135deg,#f4f6f8,#e6e9ec),linear-gradient(60deg,rgba(255,255,255,.5),transparent 40%)",d:"Crystal-clear and weightless. Low-iron float glass all but disappears — for frameless screens, tables and walls of view.",p:[["Light","Full"],["Privacy","None"],["Cost","Mid"],["Upkeep","Mid"]]},
-      {n:"Glass Block",cat:"Glass · structural",sw:"repeating-linear-gradient(0deg,#e7e9ec,#e7e9ec 22px,#d7dade 23px,#d7dade 24px),repeating-linear-gradient(90deg,#e7e9ec,#e7e9ec 22px,#d7dade 23px,#d7dade 24px)",d:"Chunky, refractive and nostalgic-modern. Glass block walls carry light deep into a plan while keeping a room enclosed.",p:[["Light","Diffuse"],["Privacy","High"],["Cost","Mid"],["Upkeep","Low"]]}
-    ]}
-  ];
+  var CATS = JSON.parse(JSON.stringify(window.__MATERIALS_DATA||[]));
+  try{ var _C=window.__CMS||{}, _mc=_C.materialsCat||{}, _mm=_C.materials||{};
+    CATS.forEach(function(cat,ci){ if(_mc[ci]){ if(_mc[ci].name)cat.name=_mc[ci].name; if(_mc[ci].sub)cat.sub=_mc[ci].sub; }
+      cat.items.forEach(function(it,ii){ var o=_mm[ci+"_"+ii]; if(o){ if(o.name)it.n=o.name; if(o.desc)it.d=o.desc; if(o.img)it.img=o.img; } });
+    });
+  }catch(e){}
 
   var leavesEl=document.getElementById("leaves"), book=document.getElementById("book"), shelfEl=document.getElementById("shelf");
   var active=0, leaves=[], N=0, cur=0, PW=430, BOOKW=860;
@@ -194,7 +180,7 @@
     if(f.type==="blank") return `<div class="face"></div>`;
     var m=f.m, n=(""+no); while(n.length<2) n="0"+n;
     var props=m.p.map(p=>`<li><span>${p[0]}</span><b>${p[1]}</b></li>`).join("");
-    return `<div class="face"><p class="pno">MATERIAL ${n}</p><div class="swatch" style="background:${m.sw};background-blend-mode:multiply"></div><h2>${m.n}</h2><p class="cat">${m.cat}</p><p class="desc">${m.d}</p><ul class="props">${props}</ul></div>`;
+    return `<div class="face"><p class="pno">MATERIAL ${n}</p><div class="swatch" style="background:${m.img?("center/cover no-repeat url('"+m.img+"')"):m.sw};background-blend-mode:${m.img?"normal":"multiply"}"></div><h2>${m.n}</h2><p class="cat">${m.cat}</p><p class="desc">${m.d}</p><ul class="props">${props}</ul></div>`;
   }
 
   function buildBook(){
@@ -336,5 +322,7 @@ addEventListener("scroll",function(){if(!running){cur=target=scrollY;}},{passive
 <script src="sfx.js"></script>
 <div class="ui-corner ui-bl">ELEVÉ — Materials</div>
 <div class="ui-corner ui-br">· library</div>
+<script src="site.js"></script>
+<script src="chrome.js"></script>
 </body>
 </html>

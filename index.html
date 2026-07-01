@@ -231,7 +231,37 @@
   .hero-card,.card,.info,form,.quote,.proj,.proj .over,.portrait,.panel,.stage,.canvas-wrap,.lb-card,.slide,.glass,.glass-strong{border-radius:0}
   /* no rounded edges anywhere */
   *{border-radius:0 !important}
+  .prog{position:fixed;top:0;left:0;height:3px;width:0;background:var(--ink);z-index:60;transition:width .1s linear}
+  .feat-card{display:grid;grid-template-columns:1.25fr 1fr;overflow:hidden;text-decoration:none;color:inherit}
+  @media(max-width:720px){.feat-card{grid-template-columns:1fr}}
+  .feat-img{min-height:340px;background:linear-gradient(135deg,#cdd3fb,#f0d4e6) center/cover no-repeat}
+  .feat-body{padding:2rem;display:flex;flex-direction:column;justify-content:center}
+  .feat-loc{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+  .feat-desc{margin-top:.8rem;color:var(--ink-soft);line-height:1.6}
+  .statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem}
+  @media(max-width:620px){.statrow{grid-template-columns:repeat(2,1fr)}}
+  .stat{text-align:center;padding:1.4rem .4rem;border-top:1px solid rgba(23,24,27,.16)}
+  .stat .num{display:block;font-family:"Playfair Display",serif;font-size:clamp(1.9rem,4vw,2.5rem);font-weight:600;line-height:1}
+  .stat .lbl{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.5rem;display:block}
+  .viewall{align-self:center;font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--ink);padding:.6rem 1rem;text-decoration:none;color:var(--ink);transition:.2s}
+  .viewall:hover{background:var(--ink);color:#fff}
+  #cStatus{margin-top:.8rem;font-size:.82rem;min-height:1.1em}
+  .cube-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;z-index:4;background:linear-gradient(135deg,var(--bg1),var(--bg3));transition:opacity .5s}
+  .cube-loading .sk{width:42px;height:42px;border:2px solid rgba(23,24,27,.15);border-top-color:var(--ink);border-radius:50%;animation:cspin 1s linear infinite}
+  .cube-loading .lbl{font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+  @keyframes cspin{to{transform:rotate(360deg)}}
 </style>
+<link rel="stylesheet" href="elevate.css">
+<meta name="description" content="An elegant, minimalist design studio shaping residential and commercial spaces. Explore projects, a materials library and a live room builder.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Elevé — Interior, Architecture & Exterior Design Studio">
+<meta property="og:description" content="An elegant, minimalist design studio shaping residential and commercial spaces. Explore projects, a materials library and a live room builder.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#17181b">
+<link rel="icon" href="/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["Organization","ProfessionalService"],"name":"Elev\u00e9","description":"Interior, architecture and exterior design studio, with a browser room builder and materials library.","email":"creative@sentientbyelysian.com","areaServed":"Worldwide","knowsAbout":["Interior design","Architecture","Space planning"],"url":"/"}</script>
 </head>
 <body>
 <div id="pfade"></div>
@@ -274,9 +304,10 @@
   </nav>
 </header>
 
+<div class="prog" id="prog"></div>
 <div id="scroll-content">
   <!-- hero -->
-  <section class="hero">
+  <section class="hero" id="hero">
     <div class="hero-inner">
       <div class="hero-card glass-strong" id="heroText">
         <span class="tag glass anim" style="transition-delay:.05s" data-cms="hero_tag">Interior · Architecture · Exterior</span>
@@ -293,7 +324,7 @@
           <a href="#contact" class="btn btn-ghost">Book a consultation →</a>
         </div>
       </div>
-      <div class="hero-visual" id="cubeWrap"><span class="floor-hint">drag the cubes · stack them</span></div>
+      <div class="hero-visual" id="cubeWrap"><div id="cubeLoad" class="cube-loading"><div class="sk"></div><div class="lbl">Loading studio</div></div><span class="floor-hint">drag the cubes · stack them</span></div>
     </div>
     <div class="scroll-cue"><div class="mouse"><i></i></div></div>
   </section>
@@ -341,6 +372,22 @@
   </section>
 
   <!-- founder -->
+  <section id="featured" class="container" style="padding:5rem 1.5rem">
+    <div class="reveal" style="display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:1.6rem">
+      <div><p class="eyebrow">Featured project</p><h2 class="title" style="font-size:clamp(1.8rem,4vw,2.6rem)" id="featTitle">—</h2></div>
+      <a href="gallery.html" class="viewall">View all →</a>
+    </div>
+    <a href="gallery.html" class="feat-card glass reveal" id="featCard">
+      <div class="feat-img" id="featImg"></div>
+      <div class="feat-body"><p class="feat-loc" id="featLoc"></p><p class="feat-desc" id="featDesc"></p></div>
+    </a>
+    <div class="statrow reveal" id="stats">
+      <div class="stat"><span class="num" data-count="120">0</span><span class="lbl">Projects delivered</span></div>
+      <div class="stat"><span class="num" data-count="14">0</span><span class="lbl">Cities</span></div>
+      <div class="stat"><span class="num" data-count="18">0</span><span class="lbl">Years</span></div>
+      <div class="stat"><span class="num" data-count="96" data-suffix="%">0</span><span class="lbl">Client satisfaction</span></div>
+    </div>
+  </section>
   <section id="founder" class="container" style="padding:7rem 1.5rem">
     <div class="reveal" style="max-width:40rem;margin-bottom:3rem">
       <p class="eyebrow">The founder</p>
@@ -413,14 +460,16 @@
         </div>
       </div>
       <form class="glass-strong reveal" id="contactForm">
-        <div class="field"><label>Name</label><input type="text" required placeholder="Your name" /></div>
-        <div class="field"><label>Email</label><input type="email" required placeholder="you@email.com" /></div>
-        <div class="field"><label>Project</label><textarea rows="4" required placeholder="Tell us about your space…"></textarea></div>
+        <div class="field"><label for="cName">Name</label><input id="cName" type="text" required placeholder="Your name" /></div>
+        <div class="field"><label for="cEmail">Email</label><input id="cEmail" type="email" required placeholder="you@email.com" /></div>
+        <div class="field"><label for="cMsg">Project</label><textarea id="cMsg" rows="4" required placeholder="Tell us about your space…"></textarea></div>
         <button class="submit" type="submit" id="submitBtn">Send message</button>
+        <p id="cStatus" role="status" aria-live="polite"></p>
       </form>
     </div>
     <footer>
       <p>© <span id="yr"></span> <span data-cms="footer">Elevé Studio. All rights reserved.</span></p>
+      <p style="margin-top:.6rem;font-size:.72rem;letter-spacing:.08em"><a href="materials.html" style="color:inherit">Materials</a> · <a href="builder.html" style="color:inherit">Room builder</a> · <a href="pricing.html" style="color:inherit">Pricing</a> · <a href="privacy.html" style="color:inherit">Privacy</a> · <a href="terms.html" style="color:inherit">Terms</a> · <a href="accessibility.html" style="color:inherit">Accessibility</a></p>
       <p class="serif gtext">Where space becomes emotion</p>
     </footer>
   </section>
@@ -831,7 +880,9 @@ function boot(){
   window.addEventListener("pointerup", onUp);
 
   const clock = new THREE.Clock();
+  var __cubeLoad=document.getElementById("cubeLoad");
   function animate(){
+    if(__cubeLoad){ var _el=__cubeLoad; __cubeLoad=false; _el.style.opacity="0"; setTimeout(function(){ _el.remove(); },500); }
     const dt = Math.min(1/30, clock.getDelta());
     if (dragBody){
       dragBody.wakeUp();
@@ -921,5 +972,40 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
 </script>
 
 <script src="sfx.js"></script>
+<script src="site.js"></script>
+<script src="chrome.js"></script>
+<script>
+(function(){
+  var ids=["hero","services","portfolio","featured","founder","testimonials","contact"];
+  var prog=document.getElementById("prog");
+  function onScroll(){ var h=(document.body.scrollHeight-innerHeight)||1, p=Math.min(1,Math.max(0,(scrollY||0)/h)); if(prog)prog.style.width=(p*100)+"%";
+  }
+  addEventListener("scroll",onScroll,{passive:true}); addEventListener("resize",onScroll); onScroll();
+  var counted=false;
+  function counters(){ if(counted)return; var st=document.getElementById("stats"); if(!st)return; if(st.getBoundingClientRect().top>innerHeight*0.92)return; counted=true;
+    st.querySelectorAll(".num").forEach(function(el){ var to=+el.getAttribute("data-count")||0, suf=el.getAttribute("data-suffix")||"", t0=performance.now(), dur=1400;
+      (function step(now){ var k=Math.min(1,(now-t0)/dur), v=Math.round(to*(1-Math.pow(1-k,3))); el.textContent=v+suf; if(k<1)requestAnimationFrame(step); })(performance.now()); }); }
+  addEventListener("scroll",counters,{passive:true}); setTimeout(counters,300);
+  // featured project (from CMS gallery data)
+  try{ var C=window.__CMS||{}, base=[["Aurora Penthouse","Residential · Lisbon"],["Meridian Facade","Commercial · Rotterdam"],["Lumen Retail","Flagship · Singapore"],["Skyline Terrace","Rooftop · Barcelona"],["Atelier Office","Workplace · Berlin"]], feat;
+    if(C.galleryAdd&&C.galleryAdd.length){ var a=C.galleryAdd[C.galleryAdd.length-1]; feat={name:a.name||"New project",loc:a.loc||"",desc:a.desc||"",img:a.img||""}; }
+    else { var o=(C.gallery&&C.gallery[0])||{}; feat={name:o.name||base[0][0],loc:o.loc||base[0][1],desc:o.desc||"A recent Elevé project — pale materials, considered light, and just enough emptiness to let the space breathe.",img:o.img||""}; }
+    var t=document.getElementById("featTitle"),l=document.getElementById("featLoc"),d=document.getElementById("featDesc"),im=document.getElementById("featImg");
+    if(t)t.textContent=feat.name; if(l)l.textContent=feat.loc; if(d)d.textContent=feat.desc; if(im&&feat.img)im.style.background="url('"+feat.img+"') center/cover no-repeat";
+  }catch(e){}
+  // contact form -> backend
+  var apibase=(location.protocol==="http:"||location.protocol==="https:")?"":"http://localhost:4000";
+  var form=document.getElementById("contactForm");
+  if(form) form.addEventListener("submit",function(e){ e.preventDefault();
+    var btn=document.getElementById("submitBtn"), st=document.getElementById("cStatus");
+    var name=(document.getElementById("cName").value||"").trim(), email=(document.getElementById("cEmail").value||"").trim(), msg=(document.getElementById("cMsg").value||"").trim();
+    btn.disabled=true; btn.textContent="Sending…";
+    fetch(apibase+"/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:name,email:email,message:msg})})
+      .then(function(r){ return r.ok?r.json():r.json().then(function(x){throw x;}); })
+      .then(function(){ form.reset(); btn.textContent="Sent ✓"; if(st){ st.style.color="var(--ink)"; st.textContent="Thank you "+name+" — your message reached the studio."; } setTimeout(function(){ btn.disabled=false; btn.textContent="Send message"; },4000); })
+      .catch(function(err){ btn.disabled=false; btn.textContent="Send message"; if(st){ st.style.color="#c0392b"; st.textContent=(err&&err.error)||"Could not send right now — please email us directly at the address shown."; } });
+  });
+})();
+</script>
 </body>
 </html>

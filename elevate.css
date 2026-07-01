@@ -1,0 +1,58 @@
+/* Elevé — elevation layer (UI/UX Pro Max pass)
+   Shared polish: type, focus/a11y, micro-interactions, motion, touch, print. */
+
+:root{ --ease-out: cubic-bezier(.22,1,.36,1); }
+
+/* ---- Typography refinement ---- */
+*{ text-rendering:optimizeLegibility; }
+h1,h2,h3,.serif{ text-wrap:balance; }
+p,.lead,.desc{ text-wrap:pretty; }
+
+/* ---- Accessible keyboard focus (skill checklist: visible focus states) ---- */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+textarea:focus-visible,[role=button]:focus-visible,[tabindex]:focus-visible,
+.pill:focus-visible,.chip:focus-visible,.minibook:focus-visible{
+  outline:2px solid var(--ink,#17181b);
+  outline-offset:3px;
+}
+:focus:not(:focus-visible){ outline:none; }
+
+/* ---- Monochrome text selection ---- */
+::selection{ background:rgba(23,24,27,.88); color:#fff; }
+
+/* ---- Consistent, smooth micro-interactions (150–300ms) ---- */
+a,button,.pill,.chip,.btn,.cbtn,.minibook,.file-lbl,[role=button]{
+  transition:color .22s var(--ease-out), background-color .22s var(--ease-out),
+             border-color .22s var(--ease-out), transform .22s var(--ease-out),
+             box-shadow .22s var(--ease-out), opacity .22s var(--ease-out);
+}
+
+/* ---- Editorial nav underline on hover ---- */
+header nav a{ position:relative; }
+header nav a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:-4px;
+  height:1px; background:currentColor; opacity:.8;
+  transition:right .32s var(--ease-out);
+}
+header nav a:hover::after{ right:0; }
+
+/* ---- Comfortable touch targets on coarse pointers ---- */
+@media (pointer:coarse){
+  a,button,.pill,.chip,.btn{ min-height:40px; }
+}
+
+/* ---- Respect reduced motion globally (skill checklist) ---- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* ---- Clean print of plans/documents ---- */
+@media print{
+  #gridfx,#pfade,#orbs,#particles,#cur-dot,#cur-ring,#sfxBtn,.ui-corner{ display:none !important; }
+  body{ background:#fff !important; }
+}

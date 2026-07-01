@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pricing — Elevé</title><meta name="description" content="Elevé Studio plans — free room builder with cloud projects, or Pro for unlimited projects and sharing.">
+<meta property="og:title" content="Pricing — Elevé"><meta property="og:description" content="Free and Pro plans for the Elevé room builder."><meta name="theme-color" content="#17181b">
+<link rel="icon" href="/favicon.svg"><link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="elevate.css">
+<style>
+ body{margin:0;background:#edeff2;color:#17181b;font-family:"Inter",system-ui,sans-serif}
+ header{padding:1.4rem 1.6rem;border-bottom:1px solid rgba(23,24,27,.12);display:flex;justify-content:space-between;align-items:center}
+ header a.logo{font-family:"JetBrains Mono",monospace;letter-spacing:.3em;text-decoration:none;color:#17181b;border:1px solid #17181b;padding:.35rem .6rem;font-size:.8rem}
+ header nav a{color:#3c3e44;text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin-left:1.2rem}
+ main{max-width:900px;margin:0 auto;padding:3.5rem 1.6rem 6rem;text-align:center}
+ h1{font-family:"Playfair Display",serif;font-size:clamp(2rem,6vw,3rem);font-weight:600;margin:0}
+ .sub{color:#6b6f76;margin:.6rem 0 2.8rem}
+ .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;text-align:left}
+ @media(max-width:640px){.grid{grid-template-columns:1fr}}
+ .card{background:#f6f7f9;border:1px solid #17181b;padding:1.8rem}
+ .card h2{font-family:"Playfair Display",serif;font-size:1.4rem;margin:0 0 .2rem}
+ .price{font-size:2rem;font-weight:600;margin:.4rem 0 1rem}.price span{font-size:.9rem;color:#6b6f76;font-weight:400}
+ ul{list-style:none;padding:0;margin:0 0 1.4rem}li{padding:.4rem 0;border-bottom:1px dotted #d7d9de;font-size:.9rem;color:#3c3e44}
+ .btn{display:inline-block;font:inherit;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding:.7rem 1.2rem;border:1px solid #17181b;background:transparent;color:#17181b;cursor:pointer;text-decoration:none}
+ .btn.solid{background:#17181b;color:#fff}
+ .note{margin-top:2.4rem;font-size:.8rem;color:#8b8f97}
+</style><link rel="canonical" href="/pricing.html">
+</head>
+<body>
+<header><a class="logo" href="/index.html">ELEVÉ</a><nav><a href="/builder.html">Builder</a><a href="/gallery.html">Gallery</a><a href="/index.html#contact">Contact</a></nav></header>
+<main>
+ <h1>Plans</h1>
+ <p class="sub">Start free. Upgrade when your studio grows.</p>
+ <div class="grid" id="plans"></div>
+ <p class="note" id="note">Billing runs through Stripe once configured. Until then, Pro can be enabled manually per account.</p>
+</main>
+<script src="site.js"></script>
+<script src="chrome.js"></script>
+<script>
+(function(){
+  var base=(location.protocol==="http:"||location.protocol==="https:")?"":"http://localhost:4000";
+  var wrap=document.getElementById("plans");
+  var fallback=[{id:"free",name:"Studio Free",price:0,features:["5 cloud projects","DXF / OBJ / PDF export","Version history (30)","Crash recovery"]},{id:"pro",name:"Studio Pro",price:24,features:["Unlimited projects","Shareable read-only links","Priority render","Team seats (soon)"]}];
+  function render(plans){ wrap.innerHTML=""; plans.forEach(function(p){ var c=document.createElement("div"); c.className="card";
+    c.innerHTML='<h2>'+p.name+'</h2><div class="price">'+(p.price?("€"+p.price+"<span>/mo</span>"):"Free")+'</div><ul>'+p.features.map(function(f){return "<li>"+f+"</li>";}).join("")+'</ul>';
+    var a=document.createElement(p.price? "button":"a"); a.className="btn"+(p.price?" solid":""); a.textContent=p.price?"Upgrade to Pro":"Start free";
+    if(p.price){ a.addEventListener("click",function(){ upgrade(p.id); }); } else { a.href="/builder.html"; }
+    c.appendChild(a); wrap.appendChild(c); }); }
+  function upgrade(plan){ var tok=null; try{tok=localStorage.getItem("eleve_token");}catch(e){}
+    if(!tok){ alert("Create an account first (open the Room Builder and Cloud save), then upgrade here."); location.href="/builder.html"; return; }
+    fetch(base+"/api/billing/checkout",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+tok},body:JSON.stringify({plan:plan})})
+      .then(function(r){return r.json().then(function(j){return {s:r.status,j:j};});})
+      .then(function(x){ alert(x.j.error||"Checkout not available yet."); })
+      .catch(function(){ alert("Billing endpoint unavailable — is the server running?"); }); }
+  fetch(base+"/api/plans").then(function(r){return r.ok?r.json():null;}).then(function(j){ render(j&&j.plans?j.plans:fallback); }).catch(function(){ render(fallback); });
+})();
+</script>
+</body></html>

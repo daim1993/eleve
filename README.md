@@ -1,55 +1,39 @@
-# Elysian — Interior + Exterior Design Studio
+# Elevé — design studio site + room builder
 
-A glass-morphism marketing site built with **Next.js 14 (App Router)**, **Tailwind CSS**
-and **Framer Motion**, featuring a mouse-reactive particle network, drifting glow orbs,
-a rotating 3D glass cube, and scroll-driven parallax + reveal animations.
+A single, self-contained web project for a high-end interior/architecture/exterior studio, plus two products:
 
-## Getting started
+- **Marketing site** — `index.html` (home), `gallery.html` (3D coverflow), `materials.html` (interactive materials book).
+- **Room Builder** — `builder.html`, a browser CAD tool: draw plans, furnish rooms (real mm blocks, CAD layers), 3D wall view, cost estimate, and export **DXF / OBJ / PDF** (with DXF import round-trip).
+- **CMS** — `cms.html`, edits all marketing content (text, photos, projects, materials) with a left-side navigator.
+- **Backend** — `server/`, a Node/Express API: accounts, content publishing, per-user builder projects with version history + share links, privacy-first analytics, rate limiting, security headers.
 
-> If a `node_modules` folder already exists from a previous attempt, delete it first.
+## Run (recommended — enables backend + persistence)
 
 ```bash
+cd server
 npm install
-npm run dev      # http://localhost:3000
+npm start            # → http://localhost:4000
+```
+Open **http://localhost:4000**. The server hosts the whole site and the API.
+
+Opened directly from `file://` the pages still work (offline), falling back to the browser's local cache; the backend features (accounts, cloud projects, publishing) require the server.
+
+## Structure
+
+```
+index.html gallery.html materials.html builder.html cms.html   # pages
+cms.js               # applies published content on public pages (+ backend sync)
+materials-data.js    # shared materials catalogue (page + CMS read it)
+elevate.css          # shared UI/UX polish + a11y layer
+site.js              # privacy-first analytics beacon + consent + client error log
+builder-cloud.js     # builder autosave/recovery + cloud save/list/share
+sfx.js               # UI sound (handpan) + scroll tick, muteable
+robots.txt sitemap.xml site.webmanifest favicon.svg 404.html
+privacy.html terms.html accessibility.html pricing.html
+server/              # Express API + tests + docs
+docs: ROADMAP.md BRAND.md CONTENT.md PITCH.md SECURITY.md LICENSE
 ```
 
-Build for production:
+## Honest status
 
-```bash
-npm run build
-npm start
-```
-
-## What's inside
-
-| Path | Purpose |
-|------|---------|
-| `app/layout.jsx` | Root layout, fonts (Inter + Playfair Display), metadata |
-| `app/page.jsx` | Assembles all sections + background layers |
-| `app/globals.css` | Glass system, gradient text, 3D cube, reduced-motion support |
-| `components/ParticleNetwork.jsx` | Canvas particle constellation (mouse-reactive) |
-| `components/GlowOrbs.jsx` | Three drifting blurred color orbs |
-| `components/FloatingCube.jsx` | CSS 3D rotating glass cube |
-| `components/Reveal.jsx` | Scroll fade/slide-in wrapper |
-| `components/Navbar.jsx` | Sticky glass nav (frosts on scroll) |
-| `components/Hero.jsx` | Hero with parallax + staggered text reveal |
-| `components/Services.jsx` | Interior / Exterior glass cards |
-| `components/Portfolio.jsx` | 6-project grid with hover overlays |
-| `components/Testimonials.jsx` | Auto-rotating quote carousel |
-| `components/Contact.jsx` | Studio info + glass contact form |
-
-## Animations (all four requested)
-
-- **Particle network** — `ParticleNetwork.jsx`, connects nearby dots and links to the cursor.
-- **Glow orbs** — `GlowOrbs.jsx`, slow infinite CSS drift.
-- **Floating 3D shape** — `FloatingCube.jsx`, glass cube spinning + bobbing.
-- **Scroll parallax + reveals** — Framer Motion `useScroll`/`useTransform` in `Hero.jsx`,
-  `Reveal.jsx` on every section.
-
-Respects `prefers-reduced-motion` for accessibility.
-
-## Customizing
-
-- Colors live in `tailwind.config.js` (`glassviolet`, `glassblue`, `glasspink`, `midnight`).
-- Glass intensity, blur and glow are in `app/globals.css` under the `.glass*` classes.
-- Replace the gradient placeholders in `Portfolio.jsx` with real `<Image>` photos when ready.
+This is a polished product **foundation**, not a finished business. See `ROADMAP.md` for what's real vs. still required (real payments with Stripe keys, professional photography & copy, a full accessibility audit, native DWG/IFC, and — the part code can't fake — users, traffic and revenue).

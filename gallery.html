@@ -129,8 +129,19 @@
   .hero-card,.card,.info,form,.quote,.proj,.proj .over,.portrait,.panel,.stage,.canvas-wrap,.lb-card,.slide,.glass,.glass-strong{border-radius:0}
   /* no rounded edges anywhere */
   *{border-radius:0 !important}
+@keyframes cspin{to{transform:rotate(360deg)}}
 </style>
 <script src="cms.js"></script>
+<link rel="stylesheet" href="elevate.css">
+<meta name="description" content="Selected Elevé projects presented as an interactive 3D coverflow gallery.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gallery — Elevé">
+<meta property="og:description" content="Selected Elevé projects presented as an interactive 3D coverflow gallery.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#17181b">
+<link rel="icon" href="/favicon.svg">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="canonical" href="/gallery.html">
 </head>
 <body>
 <canvas id="gridfx"></canvas>
@@ -151,6 +162,7 @@
 <section class="cover">
   <div class="cover-sticky">
     <canvas id="seq"></canvas>
+    <div id="coverLoad" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;z-index:2;background:linear-gradient(135deg,#edeff2,#e8eaee);transition:opacity .5s"><div style="width:42px;height:42px;border:2px solid rgba(23,24,27,.15);border-top-color:#17181b;border-radius:50%;animation:cspin 1s linear infinite"></div><div style="font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:#8b8f97">Loading gallery</div></div>
     <div class="cover-veil"></div>
     <div class="cover-title">
       <p class="eyebrow">Selected work</p>
@@ -221,6 +233,7 @@
      chips:["Workplace","Acoustics","Library"],views:["Open plan","Library","Meeting","Lounge","Plan"]}
   ];
   try{ var _c=(window.__CMS&&window.__CMS.gallery)||{}; projects.forEach(function(p,i){ var o=_c[i]; if(o){ if(o.name)p.name=o.name; if(o.loc)p.loc=o.loc; if(o.desc)p.desc=o.desc; if(o.img)p.cover=o.img; } }); }catch(e){}
+  try{ ((window.__CMS&&window.__CMS.galleryAdd)||[]).forEach(function(o){ projects.push({name:o.name||"Untitled",loc:o.loc||"",tag:"Project",desc:o.desc||"",chips:[],views:["01","02","03"],cover:o.img}); }); }catch(e){}
 
   var host=document.getElementById("projects");
   projects.forEach(function(p,pi){
@@ -391,7 +404,7 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
   var cv=document.getElementById("seq"); if(!cv) return;
   var ctx=cv.getContext("2d"), N=74, frames=[], loaded=0;
   function nm(i){ var s=""+i; while(s.length<5) s="0"+s; return "cover/cover_"+s+".jpg"; }
-  for(var i=0;i<N;i++){ var im=new Image(); im.src=nm(i); im.onload=function(){ loaded++; if(loaded===1){ resize(); } }; frames.push(im); }
+  for(var i=0;i<N;i++){ var im=new Image(); im.src=nm(i); im.onload=function(){ loaded++; if(loaded===1){ resize(); var cl=document.getElementById("coverLoad"); if(cl){ cl.style.opacity="0"; setTimeout(function(){cl.remove();},500);} } }; frames.push(im); }
   var dpr=Math.min(2,window.devicePixelRatio||1), cw=0, ch=0, cur=0;
   function resize(){ cw=cv.clientWidth; ch=cv.clientHeight; cv.width=cw*dpr; cv.height=ch*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); draw(cur); }
   function draw(idx){ var im=frames[idx]; if(!im||!im.complete||!im.naturalWidth) return; cur=idx;
@@ -459,5 +472,7 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
 })();
 </script>
 <script src="sfx.js"></script>
+<script src="site.js"></script>
+<script src="chrome.js"></script>
 </body>
 </html>

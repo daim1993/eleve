@@ -11,79 +11,95 @@
   :root{--ink:#17181b;--soft:#6b6f76;--line:#d7d9de;--bg:#eceef1;--card:#f6f7f9}
   html,body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,sans-serif;font-size:15px}
   body{background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:32px 32px}
-  .bar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding:1rem 1.4rem;background:rgba(236,238,241,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--ink)}
-  .bar h1{font-size:.95rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--ink);padding:.45rem .7rem;margin-right:auto}
-  .btn{font:inherit;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding:.55rem .9rem;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;transition:.18s}
+  .bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;padding:.9rem 1.2rem;background:rgba(236,238,241,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--ink)}
+  .bar h1{font-size:.92rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--ink);padding:.45rem .7rem;margin-right:auto}
+  .btn{display:inline-flex;align-items:center;justify-content:center;font:inherit;font-size:.76rem;line-height:1;letter-spacing:.1em;text-transform:uppercase;padding:.55rem .9rem;height:34px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;transition:.18s}
   .btn:hover{background:var(--ink);color:#fff}
-  .btn.solid{background:var(--ink);color:#fff}
-  .btn.solid:hover{opacity:.82}
-  .save{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);opacity:0;transition:.25s}
+  .btn.solid{background:var(--ink);color:#fff}.btn.solid:hover{opacity:.82}
+  .save{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);opacity:0;transition:.25s}
   .save.on{opacity:1}
-  main{max-width:880px;margin:0 auto;padding:2rem 1.4rem 6rem}
-  section{background:var(--card);border:1px solid var(--ink);margin-bottom:1.6rem}
-  .head{padding:1rem 1.3rem;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:.8rem}
-  .head h2{font-size:1rem;font-weight:600;letter-spacing:.04em}
-  .head span{font-size:.74rem;color:var(--soft);letter-spacing:.06em}
-  .body{padding:1.3rem}
+  .layout{display:grid;grid-template-columns:230px 1fr;gap:0;align-items:start}
+  @media(max-width:760px){.layout{grid-template-columns:1fr}}
+  .side{position:sticky;top:66px;align-self:start;border-right:1px solid var(--ink);min-height:calc(100vh - 66px);padding:1.4rem 0}
+  @media(max-width:760px){.side{position:static;min-height:0;border-right:none;border-bottom:1px solid var(--ink);display:flex;flex-wrap:wrap;padding:.6rem}}
+  .side .navlbl{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--soft);padding:0 1.4rem .6rem}
+  @media(max-width:760px){.side .navlbl{display:none}}
+  .side button{display:block;width:100%;text-align:left;background:none;border:none;font:inherit;font-size:.9rem;color:var(--ink);padding:.7rem 1.4rem;cursor:pointer;border-left:3px solid transparent}
+  .side button:hover{background:rgba(23,24,27,.05)}
+  .side button.on{border-left-color:var(--ink);background:rgba(23,24,27,.06);font-weight:600}
+  @media(max-width:760px){.side button{width:auto;border-left:none;border-bottom:2px solid transparent;padding:.5rem .8rem}.side button.on{border-bottom-color:var(--ink)}}
+  main{padding:2rem 1.6rem 6rem;max-width:820px}
+  .panel{display:none}.panel.on{display:block}
+  .panel>h2{font-size:1.3rem;font-weight:600;letter-spacing:.02em;margin-bottom:.3rem}
+  .panel>.sub{font-size:.82rem;color:var(--soft);margin-bottom:1.6rem}
   .field{margin-bottom:1.15rem}
-  .field:last-child{margin-bottom:0}
-  label{display:block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:.4rem}
-  input[type=text],textarea{width:100%;font:inherit;font-size:.92rem;color:var(--ink);background:#fff;border:1px solid var(--line);padding:.6rem .7rem;outline:none;transition:.15s}
-  input[type=text]:focus,textarea:focus{border-color:var(--ink)}
-  textarea{resize:vertical;min-height:4.5rem;line-height:1.5}
+  label{display:block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:.4rem}
+  input[type=text],textarea,select{width:100%;font:inherit;font-size:.92rem;color:var(--ink);background:#fff;border:1px solid var(--line);padding:.6rem .7rem;outline:none;transition:.15s}
+  input[type=text]:focus,textarea:focus,select:focus{border-color:var(--ink)}
+  textarea{resize:vertical;min-height:4.2rem;line-height:1.5}
   .grp{border:1px solid var(--line);padding:1.05rem;margin-bottom:1.1rem;background:#fff}
-  .grp>p.gh{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:600;margin-bottom:.85rem}
+  .grp>.gh{display:flex;align-items:center;justify-content:space-between;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:600;margin-bottom:.85rem}
+  .grp>.gh .del{font-size:.66rem;letter-spacing:.08em;border:1px solid var(--line);padding:.28rem .5rem;cursor:pointer;color:var(--soft);background:none}
+  .grp>.gh .del:hover{border-color:#c0392b;color:#c0392b}
   .img-row{display:flex;align-items:center;gap:1rem}
   .thumb{width:84px;height:84px;border:1px solid var(--line);background:#fff center/cover no-repeat;flex:none}
   .img-actions{display:flex;flex-direction:column;gap:.45rem}
-  .hint{font-size:.74rem;color:var(--soft);margin-top:.35rem;line-height:1.5}
-  .file-lbl{display:inline-block;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;padding:.45rem .8rem;border:1px solid var(--ink);cursor:pointer;transition:.18s}
+  .file-lbl{display:inline-flex;align-items:center;justify-content:center;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:.42rem .8rem;border:1px solid var(--ink);cursor:pointer;transition:.18s}
   .file-lbl:hover{background:var(--ink);color:#fff}
   input[type=file]{display:none}
-  .note{font-size:.8rem;color:var(--soft);line-height:1.6;margin-bottom:1.4rem}
+  .hint{font-size:.74rem;color:var(--soft);margin-top:.35rem;line-height:1.5}
+  .note{font-size:.82rem;color:var(--soft);line-height:1.6;margin-bottom:1.6rem}
+  .addbtn{font:inherit;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:.7rem 1rem;border:1px dashed var(--ink);background:none;color:var(--ink);cursor:pointer;width:100%}
+  .addbtn:hover{background:rgba(23,24,27,.05)}
 </style>
+<link rel="stylesheet" href="elevate.css">
 </head>
 <body>
 <div class="bar">
   <h1>Elevé · Content</h1>
-  <span class="save" id="save">Saved ✓</span>
-  <a class="btn" href="index.html" target="_blank">Open home ↗</a>
-  <a class="btn" href="gallery.html" target="_blank">Open gallery ↗</a>
+  <span class="save" id="save">Applied ✓</span>
+  <a class="btn" href="index.html" target="_blank">Home ↗</a>
+  <a class="btn" href="gallery.html" target="_blank">Gallery ↗</a>
+  <a class="btn" href="materials.html" target="_blank">Materials ↗</a>
   <button class="btn" id="exp">Export</button>
-  <label class="btn" for="imp">Import</label><input type="file" id="imp" accept="application/json">
+  <label class="btn" for="imp">Import<input type="file" id="imp" accept="application/json"></label>
   <button class="btn" id="rst">Reset</button>
+  <button class="btn" id="publish">Publish live</button>
   <button class="btn solid" id="apply">Apply changes</button>
 </div>
-<main>
-  <p class="note">Edit any field below — changes save instantly to this browser and appear on the site. Blank fields keep the original text. Use <b>Export</b> to download a backup file you can re-import or hand to a developer to make permanent. Images are stored in this browser only.</p>
-  <div id="app"></div>
-</main>
+<div class="layout">
+  <aside class="side" id="side"><p class="navlbl">Sections</p></aside>
+  <main>
+    <p class="note">Pick a section on the left, edit its text and photos, then press <b>Apply changes</b>. Edits save to this browser and appear on the site. Use <b>Export</b> for a backup you can re-import or hand to a developer.</p>
+    <div id="panels"></div>
+  </main>
+</div>
+<script src="materials-data.js"></script>
 <script>
 (function(){
   "use strict";
   var KEY="eleve_cms";
   var d; try{ d=JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){ d={}; }
-  d.text=d.text||{}; d.img=d.img||{}; d.gallery=d.gallery||{};
+  d.text=d.text||{}; d.img=d.img||{}; d.gallery=d.gallery||{}; d.galleryAdd=d.galleryAdd||[]; d.materials=d.materials||{}; d.materialsCat=d.materialsCat||{};
   var saveEl=document.getElementById("save"), t0, dirty=false;
-  function markDirty(){ dirty=true; saveEl.textContent="Unsaved changes — press Apply"; saveEl.classList.add("on"); }
+  function markDirty(){ dirty=true; saveEl.textContent="Unsaved — press Apply"; saveEl.classList.add("on"); }
   function apply(){ localStorage.setItem(KEY,JSON.stringify(d)); dirty=false; saveEl.textContent="Applied ✓"; saveEl.classList.add("on"); clearTimeout(t0); t0=setTimeout(function(){saveEl.classList.remove("on");},1600); }
-  function save(){ markDirty(); }
 
   var homeText=[
     ["hero_tag","Hero tagline (top)","text","Interior · Architecture · Exterior"],
-    ["hero_lead","Hero intro paragraph","area","Elevé is an elegant, minimalist studio…"],
+    ["hero_lead","Hero intro paragraph","area","Eleve is an elegant, minimalist studio…"],
     ["founder_name","Founder name","text","Camille Devereux"],
     ["founder_role","Founder role","text","Founder · Lead Interior Designer"],
-    ["founder_p1","Founder paragraph 1","area","Camille founded Elevé…"],
+    ["founder_p1","Founder paragraph 1","area","Camille founded Eleve…"],
     ["founder_p2","Founder paragraph 2","area","Her work is quiet and material-led…"],
-    ["founder_quote","Founder quote","area","“I don’t decorate rooms…”"],
+    ["founder_quote","Founder quote","area","I do not decorate rooms…"],
     ["c_intro","Contact intro","area","Tell us about your space…"],
     ["c_studio","Contact · Studio","text","14 Rua das Flores, Lisbon"],
     ["c_email","Contact · Email","text","creative@sentientbyelysian.com"],
     ["c_phone","Contact · Phone","text","+351 21 000 0000"],
-    ["footer","Footer line","text","Elevé Studio. All rights reserved."]
+    ["footer","Footer line","text","Eleve Studio. All rights reserved."]
   ];
-  var projects=[
+  var baseProjects=[
     {n:"Aurora Penthouse",l:"Residential · Lisbon"},
     {n:"Meridian Facade",l:"Commercial · Rotterdam"},
     {n:"Lumen Retail",l:"Flagship · Singapore"},
@@ -101,87 +117,137 @@
     }; im.src=r.result; };
     r.readAsDataURL(file);
   }
-
-  function textField(key,label,type,ph){
+  function textField(label,type,ph,get,set){
     var w=document.createElement("div"); w.className="field";
     var lb=document.createElement("label"); lb.textContent=label; w.appendChild(lb);
-    var el=document.createElement(type==="area"?"textarea":"input");
-    if(type!=="area") el.type="text";
-    el.placeholder=ph; el.value=d.text[key]||"";
-    el.addEventListener("input",function(){ d.text[key]=el.value; save(); });
+    var el=document.createElement(type==="area"?"textarea":"input"); if(type!=="area") el.type="text";
+    el.placeholder=ph||""; el.value=get()||"";
+    el.addEventListener("input",function(){ set(el.value); markDirty(); });
     w.appendChild(el); return w;
   }
-  function imageField(label,getUrl,setUrl,hint){
+  function imageField(label,hint,get,set){
     var w=document.createElement("div"); w.className="field";
     var lb=document.createElement("label"); lb.textContent=label; w.appendChild(lb);
     var row=document.createElement("div"); row.className="img-row";
     var th=document.createElement("div"); th.className="thumb";
-    function paint(){ var u=getUrl(); th.style.backgroundImage=u?"url('"+u+"')":"none"; }
+    function paint(){ var u=get(); th.style.backgroundImage=u?"url('"+u+"')":"none"; }
     paint();
     var act=document.createElement("div"); act.className="img-actions";
     var fl=document.createElement("label"); fl.className="file-lbl"; fl.textContent="Upload image";
-    var fi=document.createElement("input"); fi.type="file"; fi.accept="image/*";
-    fl.appendChild(fi);
-    fi.addEventListener("change",function(){ var f=fi.files[0]; if(!f)return; fileToImg(f,function(u){ setUrl(u); save(); paint(); }); fi.value=""; });
-    var cl=document.createElement("button"); cl.className="btn"; cl.style.fontSize=".72rem"; cl.textContent="Remove";
-    cl.addEventListener("click",function(){ setUrl(""); save(); paint(); });
+    var fi=document.createElement("input"); fi.type="file"; fi.accept="image/*"; fl.appendChild(fi);
+    fi.addEventListener("change",function(){ var f=fi.files[0]; if(!f)return; fileToImg(f,function(u){ set(u); markDirty(); paint(); }); fi.value=""; });
+    var cl=document.createElement("button"); cl.className="btn"; cl.style.fontSize=".7rem"; cl.textContent="Remove";
+    cl.addEventListener("click",function(){ set(""); markDirty(); paint(); });
     act.appendChild(fl); act.appendChild(cl);
     row.appendChild(th); row.appendChild(act); w.appendChild(row);
     if(hint){ var h=document.createElement("p"); h.className="hint"; h.textContent=hint; w.appendChild(h); }
     return w;
   }
-
-  var app=document.getElementById("app");
-  // HOME
-  var s1=document.createElement("section");
-  s1.innerHTML='<div class="head"><h2>Home page</h2><span>index.html</span></div>';
-  var b1=document.createElement("div"); b1.className="body";
-  b1.appendChild(imageField("Founder photo",function(){return d.img.founder_photo;},function(u){ if(u) d.img.founder_photo=u; else delete d.img.founder_photo; },"Replaces the grey portrait block in the About section."));
-  homeText.forEach(function(f){ b1.appendChild(textField(f[0],f[1],f[2],f[3])); });
-  s1.appendChild(b1); app.appendChild(s1);
-
-  // GALLERY
-  var s2=document.createElement("section");
-  s2.innerHTML='<div class="head"><h2>Gallery</h2><span>gallery.html</span></div>';
-  var b2=document.createElement("div"); b2.className="body";
-  b2.appendChild(textField("gallery_intro","Gallery intro paragraph","area","A walk through recent Elevé projects…"));
-  projects.forEach(function(p,i){
-    d.gallery[i]=d.gallery[i]||{};
+  function projectCard(store,title,onDel){
     var g=document.createElement("div"); g.className="grp";
-    var gh=document.createElement("p"); gh.className="gh"; gh.textContent="Project "+(i+1)+" — "+p.n; g.appendChild(gh);
-    function tf(field,label,type,ph){
-      var w=document.createElement("div"); w.className="field";
-      var lb=document.createElement("label"); lb.textContent=label; w.appendChild(lb);
-      var el=document.createElement(type==="area"?"textarea":"input"); if(type!=="area") el.type="text";
-      el.placeholder=ph; el.value=d.gallery[i][field]||"";
-      el.addEventListener("input",function(){ d.gallery[i][field]=el.value; save(); });
-      w.appendChild(el); return w;
-    }
-    g.appendChild(tf("name","Name","text",p.n));
-    g.appendChild(tf("loc","Subtitle","text",p.l));
-    g.appendChild(tf("desc","Description","area","Project description…"));
-    g.appendChild(imageField("Cover image",function(){return d.gallery[i].img;},function(u){ if(u) d.gallery[i].img=u; else delete d.gallery[i].img; },"Shown on every card of this project's coverflow."));
-    b2.appendChild(g);
-  });
-  s2.appendChild(b2); app.appendChild(s2);
+    var gh=document.createElement("div"); gh.className="gh"; var sp=document.createElement("span"); sp.textContent=title; gh.appendChild(sp);
+    if(onDel){ var db=document.createElement("button"); db.className="del"; db.textContent="Delete"; db.addEventListener("click",onDel); gh.appendChild(db); }
+    g.appendChild(gh);
+    g.appendChild(textField("Name","text","Project name",function(){return store.name;},function(v){store.name=v;}));
+    g.appendChild(textField("Subtitle","text","Residential · City",function(){return store.loc;},function(v){store.loc=v;}));
+    g.appendChild(textField("Description","area","Short project description…",function(){return store.desc;},function(v){store.desc=v;}));
+    g.appendChild(imageField("Cover image","Shown on the project cards.",function(){return store.img;},function(v){ if(v)store.img=v; else delete store.img; }));
+    return g;
+  }
 
-  // toolbar actions
+  var panels=document.getElementById("panels"), side=document.getElementById("side");
+  var sections=[{id:"home",label:"Home"},{id:"gallery",label:"Gallery"},{id:"materials",label:"Materials"}];
+
+  /* Home */
+  var pHome=document.createElement("div"); pHome.className="panel"; pHome.id="p-home";
+  pHome.innerHTML='<h2>Home page</h2><p class="sub">index.html — hero, founder and contact.</p>';
+  pHome.appendChild(imageField("Founder photo","Replaces the portrait block in the About section.",function(){return d.img.founder_photo;},function(v){ if(v)d.img.founder_photo=v; else delete d.img.founder_photo; }));
+  homeText.forEach(function(fld){ pHome.appendChild(textField(fld[1],fld[2],fld[3],function(){return d.text[fld[0]];},function(v){d.text[fld[0]]=v;})); });
+  panels.appendChild(pHome);
+
+  /* Gallery */
+  var pGal=document.createElement("div"); pGal.className="panel"; pGal.id="p-gallery";
+  pGal.innerHTML='<h2>Gallery</h2><p class="sub">gallery.html — intro and projects.</p>';
+  pGal.appendChild(textField("Gallery intro","area","A walk through recent projects…",function(){return d.text.gallery_intro;},function(v){d.text.gallery_intro=v;}));
+  var projWrap=document.createElement("div"); pGal.appendChild(projWrap);
+  var addBtn=document.createElement("button"); addBtn.className="addbtn"; addBtn.textContent="+ Add project"; pGal.appendChild(addBtn);
+  panels.appendChild(pGal);
+  function renderProjects(){
+    projWrap.innerHTML="";
+    baseProjects.forEach(function(bp,i){ d.gallery[i]=d.gallery[i]||{}; projWrap.appendChild(projectCard(d.gallery[i],"Project "+(i+1)+" — "+bp.n,null)); });
+    d.galleryAdd.forEach(function(p,k){ projWrap.appendChild(projectCard(p,"Added — "+(p.name||"New project"),function(){ d.galleryAdd.splice(k,1); markDirty(); renderProjects(); })); });
+  }
+  addBtn.addEventListener("click",function(){ d.galleryAdd.push({name:"New Project",loc:"Category · City",desc:""}); markDirty(); renderProjects(); });
+  renderProjects();
+
+  /* Materials */
+  var pMat=document.createElement("div"); pMat.className="panel"; pMat.id="p-materials";
+  pMat.innerHTML='<h2>Materials</h2><p class="sub">materials.html — books, swatches and copy.</p>';
+  pMat.appendChild(textField("Intro eyebrow","text","Materials library",function(){return d.text.mat_eyebrow;},function(v){d.text.mat_eyebrow=v;}));
+  pMat.appendChild(textField("Intro paragraph","area","A tactile catalogue…",function(){return d.text.mat_intro;},function(v){d.text.mat_intro=v;}));
+  var MD=window.__MATERIALS_DATA||[];
+  var mSelW=document.createElement("div"); mSelW.className="field";
+  var mSelL=document.createElement("label"); mSelL.textContent="Book (category)"; mSelW.appendChild(mSelL);
+  var mSel=document.createElement("select"); MD.forEach(function(cat,ci){var o=document.createElement("option");o.value=ci;o.textContent=cat.name+" ("+cat.items.length+")";mSel.appendChild(o);});
+  mSelW.appendChild(mSel); pMat.appendChild(mSelW);
+  var mBox=document.createElement("div"); pMat.appendChild(mBox);
+  function renderMat(){ var ci=+mSel.value, cat=MD[ci]; mBox.innerHTML=""; if(!cat)return; d.materialsCat[ci]=d.materialsCat[ci]||{};
+    mBox.appendChild(textField("Book name","text",cat.name,function(){return d.materialsCat[ci].name;},function(v){d.materialsCat[ci].name=v;}));
+    mBox.appendChild(textField("Book subtitle","text",cat.sub,function(){return d.materialsCat[ci].sub;},function(v){d.materialsCat[ci].sub=v;}));
+    cat.items.forEach(function(m,ii){ var key=ci+"_"+ii; d.materials[key]=d.materials[key]||{};
+      var g=document.createElement("div"); g.className="grp";
+      var gh=document.createElement("div"); gh.className="gh"; var sp=document.createElement("span"); sp.textContent=(ii+1)+" · "+m.n; gh.appendChild(sp); g.appendChild(gh);
+      g.appendChild(textField("Name","text",m.n,function(){return d.materials[key].name;},function(v){d.materials[key].name=v;}));
+      g.appendChild(textField("Description","area",m.d,function(){return d.materials[key].desc;},function(v){d.materials[key].desc=v;}));
+      g.appendChild(imageField("Photo (replaces swatch)","Leave empty to keep the swatch.",function(){return d.materials[key].img;},function(v){ if(v)d.materials[key].img=v; else delete d.materials[key].img; }));
+      mBox.appendChild(g);
+    });
+  }
+  if(MD.length){ mSel.addEventListener("change",renderMat); renderMat(); } else { mBox.innerHTML='<p class="hint">materials-data.js not found next to this file.</p>'; }
+  panels.appendChild(pMat);
+
+  /* sidebar nav */
+  var navBtns={};
+  sections.forEach(function(sc){ var b=document.createElement("button"); b.textContent=sc.label; navBtns[sc.id]=b; b.addEventListener("click",function(){ show(sc.id); }); side.appendChild(b); });
+  function show(id){ sections.forEach(function(sc){ document.getElementById("p-"+sc.id).classList.toggle("on",sc.id===id); navBtns[sc.id].classList.toggle("on",sc.id===id); }); }
+  show("home");
+
+  /* toolbar */
   document.getElementById("apply").addEventListener("click",apply);
   window.addEventListener("beforeunload",function(e){ if(dirty){ e.preventDefault(); e.returnValue=""; } });
-  document.getElementById("exp").addEventListener("click",function(){
-    var blob=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});
-    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="eleve-content.json"; a.click();
-  });
-  document.getElementById("imp").addEventListener("change",function(e){
-    var f=e.target.files[0]; if(!f)return; var r=new FileReader();
-    r.onload=function(){ try{ var j=JSON.parse(r.result); localStorage.setItem(KEY,JSON.stringify(j)); location.reload(); }catch(err){ alert("Invalid file"); } };
-    r.readAsText(f);
-  });
-  document.getElementById("rst").addEventListener("click",function(){
-    if(confirm("Reset all content back to the original site text and images?")){ localStorage.removeItem(KEY); location.reload(); }
+  document.getElementById("exp").addEventListener("click",function(){ var blob=new Blob([JSON.stringify(d,null,2)],{type:"application/json"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="eleve-content.json"; a.click(); });
+  document.getElementById("imp").addEventListener("change",function(e){ var f=e.target.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(){ try{ localStorage.setItem(KEY,r.result); location.reload(); }catch(err){ alert("Invalid file"); } }; r.readAsText(f); });
+  document.getElementById("rst").addEventListener("click",function(){ if(confirm("Reset all content back to the original site?")){ localStorage.removeItem(KEY); location.reload(); } });
+})();
+</script>
+<script>
+/* Elevé CMS — backend login / publish / initial load */
+(function(){
+  var base=(location.protocol==="http:"||location.protocol==="https:")?"":"http://localhost:4000";
+  var KEY="eleve_cms", TK="eleve_token";
+  // On load: pull live content from server into localStorage, refresh once so the editor shows it
+  fetch(base+"/api/content",{cache:"no-store"}).then(function(r){return r.ok?r.json():null;}).then(function(j){
+    if(j&&j.content){ var inc=JSON.stringify(j.content); if(inc!==(localStorage.getItem(KEY)||"{}") && !sessionStorage.getItem("cms_srv")){ sessionStorage.setItem("cms_srv","1"); localStorage.setItem(KEY,inc); location.reload(); } }
+  }).catch(function(){});
+  function login(cb){
+    var t=localStorage.getItem(TK); if(t) return cb(t);
+    var pw=prompt("Admin password:"); if(!pw) return;
+    fetch(base+"/api/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:pw})})
+      .then(function(r){return r.ok?r.json():Promise.reject();})
+      .then(function(j){ localStorage.setItem(TK,j.token); cb(j.token); })
+      .catch(function(){ alert("Login failed — check the password (default: eleve-admin)."); });
+  }
+  var btn=document.getElementById("publish");
+  if(btn) btn.addEventListener("click",function(){
+    login(function(tok){
+      var content; try{ content=JSON.parse(localStorage.getItem(KEY)||"{}"); }catch(e){ content={}; }
+      fetch(base+"/api/content",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+tok},body:JSON.stringify({content:content})})
+        .then(function(r){ if(r.status===401){ localStorage.removeItem(TK); throw {expired:true}; } return r.ok?r.json():Promise.reject(); })
+        .then(function(){ alert("Published live ✓ — visitors on any device now see these edits."); })
+        .catch(function(e){ if(e&&e.expired) alert("Session expired — click Publish live again to log in."); else alert("Publish failed — is the server running? (cd server && npm start)"); });
+    });
   });
 })();
 </script>
-<script src="sfx.js"></script>
 </body>
 </html>
