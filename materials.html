@@ -6,7 +6,7 @@
 <title>Elevé · Materials Library</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *{box-sizing:border-box;margin:0;padding:0;border-radius:0!important}
   :root{--ink:#17181b;--ink-soft:#3c3e44;--muted:#8b8f97;--bg1:#edeff2;--bg2:#f4f5f7;--bg3:#e8eaee;--line:#d7d9de;--paper:#f6f7f9;--paper2:#eef0f3}
@@ -29,9 +29,11 @@
 
   .mat-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7rem 1rem 5rem;position:relative;z-index:5}
   .mat-intro{text-align:center;margin-bottom:2rem;max-width:40rem}
-  .mat-intro .eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
-  .mat-intro h1{font-family:"Playfair Display",serif;font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.05;font-weight:600}
-  .mat-intro p{color:var(--ink-soft);margin-top:.8rem;font-size:.95rem}
+  .mat-intro .eyebrow{display:inline-flex;align-items:center;gap:.8rem;font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem}
+  .mat-intro .eyebrow::before,.mat-intro .eyebrow::after{content:"";width:2rem;height:1px;background:var(--ink);opacity:.4}
+  .mat-intro h1{font-family:"Playfair Display",serif;font-size:clamp(2.1rem,5.8vw,3.5rem);line-height:1.14;font-weight:600}
+  .mat-intro h1 .gtext{font-style:italic;font-weight:500;padding-right:.05em}
+  .mat-intro p{color:var(--ink-soft);margin-top:.8rem;font-size:.95rem;line-height:1.7}
 
   .book-scene{perspective:3000px;display:flex;justify-content:center;align-items:center;margin-top:1rem}
   .book{--pw:430px;--ph:480px;position:relative;width:calc(var(--pw)*2);height:var(--ph);transform-style:preserve-3d;transform:rotateX(9deg)}
@@ -89,6 +91,7 @@
   @media(prefers-reduced-motion:reduce){#pfade{display:none}.leaf{transition:none}}
 </style>
 <script src="page-turn.js"></script>
+<script src="motion.js" defer></script>
 <link rel="stylesheet" href="elevate.css">
 <script src="materials-data.js"></script>
 <script src="cms.js"></script>
@@ -112,20 +115,21 @@
     <a href="gallery.html">Gallery</a>
     <a href="materials.html">Materials</a>
     <a href="builder.html">Builder</a>
+    <a href="portal.html">Portal</a>
     <a href="index.html#contact">Contact</a>
   </nav>
 </header>
 
 <div class="mat-wrap">
   <div class="mat-intro">
-    <p class="eyebrow" data-cms="mat_eyebrow">Materials library</p>
-    <h1>The <span class="gtext">material</span> of everything</h1>
-    <p data-cms="mat_intro">A tactile catalogue of the surfaces, woods, stones and textiles behind every Elevé interior. Grab the book and turn its pages.</p>
+    <p class="eyebrow" data-reveal="fade" data-cms="mat_eyebrow">Materials library</p>
+    <h1 data-split>The <span class="gtext">material</span> of everything</h1>
+    <p data-reveal style="--d:.4s" data-cms="mat_intro">A tactile catalogue of the surfaces, woods, stones and textiles behind every Elevé interior. Grab the book and turn its pages.</p>
   </div>
 
   <div class="book-row">
     <div class="book-col">
-    <div class="book-scene">
+    <div class="book-scene" data-reveal="scale" style="--d:.25s">
     <div class="book" id="book">
       <div class="board"></div>
       <div class="endpaper left"></div>
@@ -144,12 +148,24 @@
   </div>
   <p class="hint">Drag a page sideways to turn it — or use the arrows.</p>
     </div>
-    <aside class="shelf-side">
+    <aside class="shelf-side" data-reveal="right" style="--d:.4s">
       <p class="shelf-lbl">Other libraries</p>
       <div class="shelf" id="shelf"></div>
     </aside>
     </div>
 </div>
+
+<footer class="e-footer" style="margin-top:0">
+  <div class="ef-in" style="padding-top:2.6rem">
+    <span class="ef-word" aria-hidden="true" style="font-size:clamp(3rem,9vw,6.5rem)">MATERIAL<em>S</em></span>
+    <div class="ef-bottom">
+      <span>© <span data-e-year></span> Elevé Studio. All rights reserved.</span>
+      <span class="ef-tag">Where space becomes emotion</span>
+      <span style="display:flex;gap:1.4rem;align-items:center"><a href="index.html" class="e-link">Home</a><a href="gallery.html" class="e-link">Gallery</a><a href="builder.html" class="e-link">Builder</a></span>
+      <span class="mono" data-e-time>Lisbon —:—</span>
+    </div>
+  </div>
+</footer>
 
 <div id="cur-dot"></div>
 <div id="cur-ring"></div>
@@ -298,9 +314,10 @@
 
 <!-- custom cursor -->
 <script>
-(function(){if(window.matchMedia&&matchMedia("(pointer:coarse)").matches)return;var d=document.getElementById("cur-dot"),r=document.getElementById("cur-ring");if(!d||!r)return;var mx=0,my=0,rx=0,ry=0;
+(function(){if(window.matchMedia&&matchMedia("(pointer:coarse)").matches)return;var d=document.getElementById("cur-dot"),r=document.getElementById("cur-ring");if(!d||!r)return;var mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
 function setT(el,x,y){el.style.transform="translate("+(x-el.offsetWidth/2)+"px,"+(y-el.offsetHeight/2)+"px)";}
-addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;setT(d,mx,my);});
+d.style.opacity=0;r.style.opacity=0;
+addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.opacity=1;r.style.opacity=1;setT(d,mx,my);});
 addEventListener("mousedown",function(){r.classList.add("down");});addEventListener("mouseup",function(){r.classList.remove("down");});
 document.addEventListener("mouseover",function(e){var i=e.target.closest&&e.target.closest("a,button,.leaf,.book,[role=button],input,select");r.classList.toggle("hover",!!i);});
 (function loop(){rx+=(mx-rx)*0.2;ry+=(my-ry)*0.2;setT(r,rx,ry);requestAnimationFrame(loop);})();})();
@@ -319,7 +336,7 @@ addEventListener("wheel",function(e){if(e.ctrlKey)return;var tp=(e.deltaMode===0
 addEventListener("scroll",function(){if(!running){cur=target=scrollY;}},{passive:true});})();
 </script>
 
-<script src="sfx.js"></script>
+<script src="sfx.js?v=6"></script>
 <div class="ui-corner ui-bl">ELEVÉ — Materials</div>
 <div class="ui-corner ui-br">· library</div>
 <script src="site.js"></script>

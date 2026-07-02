@@ -6,7 +6,7 @@
 <title>Elevé — CAD Room Builder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root{--violet:#a7abb3;--periwinkle:#bcc0c7;--blush:#cfd2d7;--sky:#c3c7ce;--bg1:#edeff2;--bg2:#f4f5f7;--bg3:#e8eaee;--ink:#17181b;--ink-soft:#3c3e44;--muted:#8b8f97}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -14,62 +14,68 @@
   a{color:inherit;text-decoration:none}.mono{font-family:"JetBrains Mono",monospace}
   .glass{background:linear-gradient(#ecedf0,#ecedf0) padding-box,linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,255,255,.2) 30%,rgba(23,24,27,.10) 68%,rgba(255,255,255,.55)) border-box;border:1.5px solid transparent;box-shadow:9px 9px 22px rgba(23,24,27,.09),-8px -8px 18px rgba(255,255,255,.85),inset 1px 1px 1.5px rgba(255,255,255,.92),inset -1.5px -1.5px 2px rgba(23,24,27,.06)}
   .gtext{color:var(--ink);-webkit-text-fill-color:currentColor}
-  header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;position:sticky;top:0;z-index:20;background:rgba(255,255,255,.5);backdrop-filter:blur(20px) saturate(165%);border-bottom:1px solid rgba(255,255,255,.5)}
-  header .logo{font-family:"Inter",sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;border:1px solid var(--ink);padding:.5rem .7rem;line-height:1;color:var(--ink)}
-  header .back{font-size:.85rem;color:var(--ink-soft);padding:.5rem 1rem;border-radius:60px;border:1px solid rgba(43,47,69,.15);transition:.3s}
-  header .back:hover{background:rgba(255,255,255,.5)}
+  h2 .gtext{font-style:italic;font-weight:500}
+  header{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:1rem 1.5rem;position:sticky;top:0;z-index:20;background:rgba(237,239,242,.72);backdrop-filter:blur(20px) saturate(165%);border-bottom:1px solid rgba(23,24,27,.1)}
+  header .logo{font-family:"JetBrains Mono",monospace;font-size:.78rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;border:1px solid var(--ink);padding:.5rem .7rem;line-height:1;color:var(--ink)}
+  header .back{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);padding:.55rem .9rem;border:1px solid rgba(23,24,27,.3);transition:.25s}
+  header .back:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
   .layout{display:grid;grid-template-columns:1fr;gap:1.25rem;max-width:94rem;margin:0 auto;padding:1.5rem}
   @media(min-width:980px){.layout{grid-template-columns:20rem 1fr}}
-  .panel{border-radius:1.25rem;padding:1.25rem;align-self:start}
-  .panel h2{font-family:"Playfair Display",serif;font-size:1.1rem;margin-bottom:.2rem}
-  .panel .sub{font-size:.78rem;color:var(--muted);margin-bottom:1.1rem}
-  .group{margin-bottom:1.2rem}
-  .glabel{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.55rem;display:flex;justify-content:space-between;align-items:center}
-  .glabel button{font-size:.7rem;border:none;background:none;color:#4f46e5;cursor:pointer}
-  .row{display:flex;gap:.5rem;flex-wrap:wrap}
-  .row .pill{flex:1;min-width:3.6rem}
-  .pill{padding:.5rem .4rem;border-radius:.7rem;border:1px solid rgba(43,47,69,.12);background:rgba(255,255,255,.4);font-size:.78rem;cursor:pointer;transition:.2s;text-align:center;color:var(--ink-soft)}
-  .pill:hover{background:rgba(255,255,255,.78);color:var(--ink)}
+  .panel{border-radius:1.25rem;padding:1.35rem;align-self:start}
+  .panel h2{font-family:"Playfair Display",serif;font-size:1.3rem;line-height:1.25;font-weight:600;margin-bottom:.25rem}
+  .panel h2 .gtext{padding-right:.05em}
+  .panel .sub{font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+  .group{margin-bottom:1.35rem}
+  .glabel{font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:.55rem;display:flex;justify-content:space-between;align-items:center;gap:.6rem}
+  .glabel::after{content:"";flex:1;height:1px;background:rgba(23,24,27,.12);order:1}
+  .glabel button{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;border:none;background:none;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--ink);padding:0 0 .1rem;order:2}
+  .row{display:flex;gap:.45rem;flex-wrap:wrap}
+  .row .pill{flex:1 1 auto;min-width:max-content}
+  .pill{padding:.55rem .55rem;border:1px solid rgba(23,24,27,.18);background:rgba(255,255,255,.4);font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;cursor:pointer;transition:.2s;text-align:center;color:var(--ink-soft)}
+  .pill:hover{border-color:var(--ink);color:var(--ink);background:rgba(255,255,255,.78)}
   .pill.active{background:var(--ink);color:#fff;border-color:var(--ink)}
   .chips{display:flex;flex-wrap:wrap;gap:.4rem}
-  .chip{padding:.34rem .6rem;border-radius:60px;border:1px solid rgba(139,147,248,.3);background:rgba(139,147,248,.12);font-size:.74rem;cursor:pointer;transition:.2s;color:var(--ink-soft)}
-  .chip:hover{background:rgba(139,147,248,.28);color:var(--ink)}
+  .chip{padding:.36rem .6rem;border:1px solid var(--line,#d7d9de);background:transparent;font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.06em;cursor:pointer;transition:.2s;color:var(--ink-soft)}
+  .chip:hover{border-color:var(--ink);color:#fff;background:var(--ink)}
   .floors{display:flex;flex-direction:column;gap:.4rem}
-  .floor{display:flex;align-items:center;justify-content:space-between;padding:.5rem .7rem;border-radius:.7rem;border:1px solid rgba(43,47,69,.12);background:rgba(255,255,255,.4);cursor:pointer;font-size:.82rem;transition:.2s}
-  .floor:hover{background:rgba(255,255,255,.7)}.floor.active{background:rgba(139,147,248,.22);border-color:var(--periwinkle);color:var(--ink)}
+  .floor{display:flex;align-items:center;justify-content:space-between;padding:.5rem .7rem;border:1px solid rgba(23,24,27,.16);background:rgba(255,255,255,.4);cursor:pointer;font-size:.8rem;transition:.2s}
+  .floor:hover{border-color:rgba(23,24,27,.45)}.floor.active{background:var(--ink);border-color:var(--ink);color:#fff}
+  .floor.active .x{color:rgba(255,255,255,.7)}
   .floor .x{color:var(--muted);font-size:.9rem;padding:0 .2rem}.floor .x:hover{color:#c0392b}
-  .toggle{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--ink-soft);cursor:pointer;margin-top:.5rem}
+  .toggle{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--ink-soft);cursor:pointer;margin-top:.55rem}
+  .toggle input{accent-color:#17181b}
   .actions{display:flex;flex-direction:column;gap:.5rem}
-  .btn{padding:.65rem 1rem;border-radius:60px;font-size:.84rem;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:.3s;text-align:center}
-  .btn-primary{background:var(--ink);color:#fff}.btn-primary:hover{background:#3a3f5e}
-  .btn-soft{background:rgba(255,255,255,.5);border:1px solid rgba(43,47,69,.14);color:var(--ink)}.btn-soft:hover{background:rgba(255,255,255,.8)}
-  .hint{font-size:.71rem;color:var(--muted);margin-top:1rem;line-height:1.5}
-  #propsCard{border:1px solid rgba(139,147,248,.35);background:rgba(165,180,252,.1);border-radius:.9rem;padding:.85rem}
-  #propsCard .pt{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+  .btn{padding:.7rem 1rem;font-family:"JetBrains Mono",monospace;font-size:.64rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border:1px solid var(--ink);transition:.25s;text-align:center;color:var(--ink)}
+  .btn-primary{background:var(--ink);color:#fff}.btn-primary:hover{background:#000;box-shadow:0 8px 20px rgba(23,24,27,.22);transform:translateY(-1px)}
+  .btn-soft{background:rgba(255,255,255,.5);border:1px solid rgba(23,24,27,.3);color:var(--ink)}.btn-soft:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .hint{font-size:.7rem;color:var(--muted);margin-top:1.1rem;line-height:1.7;border-top:1px solid rgba(23,24,27,.12);padding-top:.9rem}
+  #propsCard{border:1px solid rgba(23,24,27,.35);background:rgba(255,255,255,.55);padding:.9rem;position:relative}
+  #propsCard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ink)}
+  #propsCard .pt{font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);margin-bottom:.6rem}
   .field{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
-  .field label{font-size:.78rem;color:var(--ink-soft);width:4rem}
-  .field input,.field select{flex:1;width:100%;border:1px solid rgba(43,47,69,.18);background:rgba(255,255,255,.7);border-radius:.5rem;padding:.38rem .5rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink);outline:none}
-  .field input:focus,.field select:focus{border-color:var(--periwinkle);box-shadow:0 0 0 2px rgba(165,180,252,.3)}
+  .field label{font-size:.74rem;color:var(--ink-soft);width:4rem}
+  .field input,.field select{flex:1;width:100%;border:1px solid rgba(23,24,27,.22);background:rgba(255,255,255,.7);padding:.4rem .5rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink);outline:none}
+  .field input:focus,.field select:focus{border-color:var(--ink);box-shadow:0 0 0 2px rgba(23,24,27,.12)}
   .field .u{font-size:.72rem;color:var(--muted)}
-  .stage{border-radius:1.25rem;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+  .stage{border-radius:1.25rem;padding:1.1rem;display:flex;flex-direction:column;gap:.75rem}
   .stage .bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-  .stage .bar .title{font-family:"Playfair Display",serif;font-size:1.2rem}
-  .stage .bar .meta{font-size:.74rem;color:var(--muted)}
-  .specbar{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem .9rem;border-top:1px solid rgba(43,47,69,.14);padding-top:.95rem;margin-top:.1rem}
+  .stage .bar .title{font-family:"Playfair Display",serif;font-size:1.3rem;font-style:italic;font-weight:500}
+  .stage .bar .meta{font-size:.68rem;letter-spacing:.06em;color:var(--muted)}
+  .specbar{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem .9rem;border-top:1px solid rgba(23,24,27,.14);padding-top:.95rem;margin-top:.1rem}
   @media(max-width:560px){.specbar{grid-template-columns:repeat(2,1fr)}}
   .specbar .spec{display:flex;flex-direction:column;gap:.34rem;min-width:0}
-  .specbar .spec label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-  .specbar select{width:100%;border:1px solid rgba(43,47,69,.18);background:rgba(255,255,255,.7);padding:.5rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink);outline:none}
-  .specbar select:focus{border-color:var(--periwinkle);box-shadow:0 0 0 2px rgba(165,180,252,.3)}
-  .specbar .est{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-between;gap:.8rem;border-top:1px solid rgba(43,47,69,.1);padding-top:.7rem;margin-top:.15rem}
+  .specbar .spec label{font-family:"JetBrains Mono",monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .specbar select{width:100%;border:1px solid rgba(23,24,27,.22);background:rgba(255,255,255,.7);padding:.5rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink);outline:none}
+  .specbar select:focus{border-color:var(--ink);box-shadow:0 0 0 2px rgba(23,24,27,.12)}
+  .specbar .est{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-between;gap:.8rem;border-top:1px solid rgba(23,24,27,.1);padding-top:.7rem;margin-top:.15rem}
   .specbar .est label{margin:0}
-  .specbar .est #estCost{font-family:"JetBrains Mono",monospace;font-size:1.15rem;font-weight:600;color:var(--ink)}
-  .canvas-wrap{position:relative;width:100%;border-radius:.8rem;overflow:hidden}
+  .specbar .est #estCost{font-family:"Playfair Display",serif;font-size:1.5rem;font-weight:600;color:var(--ink)}
+  .canvas-wrap{position:relative;width:100%;border-radius:.8rem;overflow:hidden;border:1px solid rgba(23,24,27,.2)}
   canvas{display:block;width:100%;height:auto;touch-action:none;cursor:default}
   .zoomctl{position:absolute;right:.6rem;bottom:.6rem;display:flex;gap:.3rem}
-  .zoomctl button{height:30px;min-width:30px;border-radius:8px;border:1px solid rgba(43,47,69,.15);background:rgba(255,255,255,.85);cursor:pointer;font-size:.95rem;color:var(--ink);font-family:inherit}
-  .zoomctl button#zreset{padding:0 .5rem;font-size:.72rem;font-family:"JetBrains Mono",monospace}
-  .zoomctl button:hover{background:#fff}
+  .zoomctl button{height:30px;min-width:30px;border:1px solid rgba(23,24,27,.35);background:rgba(255,255,255,.88);cursor:pointer;font-size:.95rem;color:var(--ink);font-family:"JetBrains Mono",monospace;transition:.2s}
+  .zoomctl button#zreset{padding:0 .5rem;font-size:.68rem}
+  .zoomctl button:hover{background:var(--ink);color:#fff}
   #pfade{position:fixed;inset:0;z-index:990;pointer-events:none;opacity:1;background:linear-gradient(135deg,var(--bg1),var(--bg2) 45%,var(--bg3));transition:opacity .8s ease}
   #pfade.out{opacity:0}
   @media(prefers-reduced-motion:reduce){#pfade{display:none}}
@@ -92,8 +98,8 @@
   #ctxmenu button:disabled{opacity:.34;cursor:default}
   #ctxmenu .sep{height:1px;background:rgba(43,47,69,.16);margin:.26rem .2rem}
   #ctxmenu .k{font-family:"JetBrains Mono",monospace;font-size:.64rem;opacity:.55}
-  .numin{width:4.4rem;border:1px solid rgba(43,47,69,.18);background:rgba(255,255,255,.7);padding:.4rem .45rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink);outline:none}
-  .numin:focus{border-color:var(--periwinkle);box-shadow:0 0 0 2px rgba(165,180,252,.3)}
+  .numin{width:4.4rem;border:1px solid rgba(23,24,27,.22);background:rgba(255,255,255,.7);padding:.4rem .45rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--ink);outline:none}
+  .numin:focus{border-color:var(--ink);box-shadow:0 0 0 2px rgba(23,24,27,.12)}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
@@ -104,8 +110,18 @@
   #view3d .close3d{position:fixed;top:18px;right:18px;z-index:1401;font-family:"JetBrains Mono",monospace;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;padding:.6rem 1rem;border:1px solid #17181b;background:rgba(255,255,255,.7);color:#17181b;cursor:pointer}
   #view3d .close3d:hover{background:#17181b;color:#fff}
   #view3d .hint3d{position:fixed;bottom:18px;left:0;right:0;text-align:center;font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#6f727a;z-index:1401;pointer-events:none}
+  #lvl3d{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:1401;display:flex;align-items:center;gap:.4rem}
+  #lvl3d button{font-family:"JetBrains Mono",monospace;font-size:.8rem;line-height:1;padding:.55rem .7rem;border:1px solid #17181b;background:rgba(255,255,255,.7);color:#17181b;cursor:pointer;transition:.2s}
+  #lvl3d button:hover:not(:disabled){background:#17181b;color:#fff}
+  #lvl3d button:disabled{opacity:.3;cursor:default}
+  #lvl3d .lbl{font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#17181b;background:rgba(255,255,255,.7);border:1px solid #17181b;padding:.62rem .8rem;min-width:11rem;text-align:center}
+  /* subtle square cursor dot inside the 3D view (overlay sits above the page cursor) */
+  body.v3d-on #cur-ring{opacity:0!important}
+  body.v3d-on #cur-dot{z-index:1500;width:6px;height:6px;opacity:.55}
 </style>
 <link rel="stylesheet" href="elevate.css">
+<script src="dialog.js"></script>
+<script src="motion.js" defer></script>
 <meta name="description" content="A browser-based CAD room builder: draw floor plans, furnish rooms, view them in 3D, estimate cost and export DXF, OBJ and PDF.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Room Builder — Elevé">
@@ -125,8 +141,8 @@
   <a href="index.html" class="back">← Back to site</a>
 </header>
 <div class="layout">
-  <aside class="panel glass">
-    <h2>CAD Room Builder</h2>
+  <aside class="panel glass e-ticks">
+    <h2>CAD Room <span class="gtext">Builder</span></h2>
     <p class="sub">Rooms · doors · windows · groups · auto-fill · zoom</p>
     <div class="group"><p class="glabel">Tool</p><div class="row">
       <div class="pill active" data-tool="select">Select</div>
@@ -160,12 +176,12 @@
       <label class="btn btn-soft" for="dxfImpInput" style="cursor:pointer;text-align:center">Import DXF</label><input type="file" id="dxfImpInput" accept=".dxf" style="display:none">
       <div class="row"><button class="btn btn-soft" id="saveBtn" style="flex:1">Save</button><label class="btn btn-soft" for="loadInput" style="flex:1;cursor:pointer;text-align:center">Load</label></div>
       <input type="file" id="loadInput" accept="application/json,.json" style="display:none">
-      <button class="btn btn-soft" id="v3dBtn">◱ 3D view (walls)</button>
+      <button class="btn btn-soft" id="v3dBtn">◱ 3D view · this floor + below</button>
       <div class="row"><button class="btn btn-soft" id="cloudSave" style="flex:1">☁ Cloud save</button><button class="btn btn-soft" id="myProjects" style="flex:1">Projects</button></div>
       <button class="btn btn-soft" id="shareProj">Share link</button></div>
     <p class="hint">Wheel = zoom · hold Space + drag = pan. Room/Poly draw shows wall lengths. Door/Window: click a wall (they follow the wall angle). Select a room → pick its Type → Auto-fill. Shortcuts: D door · W window · Q poly · G group/ungroup · R rotate. Double-click a polygon to edit its points (drag points · dbl-click a point to remove · dbl-click an edge to add · Esc to finish). Ctrl+D duplicate · Ctrl+G group · R rotate · Ctrl+Z undo · Del.</p>
   </aside>
-  <main class="stage glass">
+  <main class="stage glass e-ticks">
     <div class="bar"><span class="title" id="floorTitle">Ground Floor</span><span class="meta mono" id="meta"></span></div>
     <div class="canvas-wrap">
       <canvas id="cad"></canvas>
@@ -504,7 +520,16 @@
     var pts=r.poly,n=pts.length,cx=0,cy=0;pts.forEach(function(p){cx+=p.x;cy+=p.y;});cx/=n;cy/=n;
     var segs=[];for(var i=0;i<n;i++){var a=pts[i],b=pts[(i+1)%n];segs.push({a:a,b:b,len:Math.hypot(b.x-a.x,b.y-a.y)});}segs.sort(function(p,q){return q.len-p.len;});
     var set=POLYSET[arch]||POLYSET.living,out=[];
-    function placeWall(type,seg,tA){var dx=(seg.b.x-seg.a.x)/seg.len,dy=(seg.b.y-seg.a.y)/seg.len,ang=Math.atan2(dy,dx),nx=-dy,ny=dx,mx=seg.a.x+dx*seg.len*tA,my=seg.a.y+dy*seg.len*tA;if((cx-mx)*nx+(cy-my)*ny<0){nx=-nx;ny=-ny;}var d=CAT[type],inset=d.h/2+6,it=makeItem(type,mx+nx*inset,my+ny*inset,ang);for(var k=0;k<8;k++){if(fitsInRoom(r,it))return it;it.x+=nx*7;it.y+=ny*7;}return null;}
+    function placeWall(type,seg,tA){var dx=(seg.b.x-seg.a.x)/seg.len,dy=(seg.b.y-seg.a.y)/seg.len,ang=Math.atan2(dy,dx),nx=-dy,ny=dx,mx=seg.a.x+dx*seg.len*tA,my=seg.a.y+dy*seg.len*tA;if((cx-mx)*nx+(cy-my)*ny<0){nx=-nx;ny=-ny;}var d=CAT[type],inset=d.h/2+6,it=makeItem(type,mx+nx*inset,my+ny*inset,ang);
+      for(var k=0;k<8;k++){
+        if(fitsInRoom(r,it)){
+          var clash=false;
+          for(var q=0;q<out.length;q++){ if(!allowedPair(it,out[q])&&obbOverlap(it,out[q],6)){clash=true;break;} }
+          if(!clash) return it;
+        }
+        it.x+=nx*7;it.y+=ny*7;
+      }
+      return null;}
     for(var s=0;s<segs.length&&s<set.length;s++){if(segs[s].len<70)break;var it=placeWall(set[s],segs[s],rnd(.35,.65));if(it)out.push(it);}
     if(pointInPoly(cx,cy,r.poly)){var central=(arch==="kitchen")?"Island":(arch==="dining")?"Dining table":(arch==="office")?"Meeting table":"Rug";var ci=off(central,cx,cy);if(fitsInRoom(r,ci))out.push(ci);if(arch==="living"){var ct=off("Coffee table",cx,cy);if(fitsInRoom(r,ct))out.push(ct);}}
     var pl=off("Plant",cx+rnd(-40,40),cy+rnd(-40,40));if(fitsInRoom(r,pl))out.push(pl);
@@ -515,15 +540,51 @@
     pushHistory();
     F().items=F().items.filter(function(it){return !(r.poly?pointInPoly(it.x,it.y,r.poly):(it.x>r.x-r.w/2&&it.x<r.x+r.w/2&&it.y>r.y-r.h/2&&it.y<r.y+r.h/2));});
     var arch=(r.atype&&r.atype!=="auto")?r.atype:archetypeFor(r),gid=++gidCounter,placed;
+    var zones=doorZonesFor(r);
     if(r.poly)placed=polyFill(r,arch);else placed=(GEN[arch]||GEN.living)(roomInner(r));
+    placed=settleAnchors(r,placed,zones);
     var roomItems=[];
-    placed.forEach(function(it){if(fitsInRoom(r,it)){it.g=gid;F().items.push(it);roomItems.push(it);}});
-    var pool=FILL[arch]||["Plant","Armchair","Chair"], ir=roomInner(r), nfill=Math.round(density*8), got=0, tries=0;
-    while(got<nfill && tries<nfill*14){ tries++;
-      var ty=pool[Math.floor(Math.random()*pool.length)];
-      var it2=makeItem(ty, ir.x+(Math.random()-0.5)*ir.w*0.92, ir.y+(Math.random()-0.5)*ir.h*0.92, Math.random()<0.5?0:HALF);
-      if(!fitsInRoom(r,it2)) continue;
-      var bad=roomItems.some(function(p){return p.type!=="Rug" && aabbOverlap(p,it2,5);});
+    placed.forEach(function(it){it.g=gid;F().items.push(it);roomItems.push(it);});
+    /* fillers: crowd slider sets HOW MANY and, inversely, HOW FAR APART.
+       Placement is rotation-aware — storage backs onto walls, seating turns
+       to face the room, plants take corners, everything respects clearance. */
+    var pool=FILL[arch]||["Plant","Armchair","Chair"], ir=roomInner(r);
+    var nfill=Math.round(density*8), got=0, tries=0;
+    var GAP=6+(1-density)*22;
+    var segs=null;
+    if(r.poly){ segs=[]; var ctr={x:0,y:0};
+      r.poly.forEach(function(p){ctr.x+=p.x;ctr.y+=p.y;}); ctr.x/=r.poly.length; ctr.y/=r.poly.length;
+      for(var si=0;si<r.poly.length;si++){var a=r.poly[si],b=r.poly[(si+1)%r.poly.length],L=Math.hypot(b.x-a.x,b.y-a.y);
+        if(L>60)segs.push({a:a,b:b,len:L});}
+    }
+    function wallFiller(ty){
+      var d=CAT[ty];
+      if(segs){ if(!segs.length)return null; var sg=pick(segs); if(sg.len<Math.max(d.w,26)+24)return null;
+        var dx=(sg.b.x-sg.a.x)/sg.len,dy=(sg.b.y-sg.a.y)/sg.len,ang=Math.atan2(dy,dx),nx=-dy,ny=dx;
+        var t=rnd(.12,.88),mx=sg.a.x+dx*sg.len*t,my=sg.a.y+dy*sg.len*t;
+        if((ctr.x-mx)*nx+(ctr.y-my)*ny<0){nx=-nx;ny=-ny;}
+        return makeItem(ty,mx+nx*(d.h/2+6),my+ny*(d.h/2+6),ang);
+      }
+      return wallItem(ty,ir,pick(["top","bottom","left","right"]),rnd(.12,.88));
+    }
+    while(got<nfill && tries<nfill*22){ tries++;
+      var ty=pool[Math.floor(Math.random()*pool.length)], it2=null;
+      var mode=WALLISH[ty]?"wall":(CORNERISH[ty]&&Math.random()<.7&&!r.poly?"corner":(Math.random()<.45?"wall":"free"));
+      if(mode==="wall"){ it2=wallFiller(ty); }
+      else if(mode==="corner"){ it2=corner(ty,ir); }
+      else{
+        var fx=ir.x+(Math.random()-0.5)*ir.w*0.86, fy=ir.y+(Math.random()-0.5)*ir.h*0.86, ang2;
+        if(SEATISH[ty]){ var f=Math.atan2(ir.y-fy,ir.x-fx); ang2=Math.round(f/(Math.PI/4))*(Math.PI/4); }
+        else ang2=Math.random()<0.5?0:HALF;
+        it2=makeItem(ty,fx,fy,ang2);
+      }
+      if(!it2||!fitsInRoom(r,it2)) continue;
+      if(inDoorZone(it2,zones)) continue;
+      var bad=false;
+      for(var bi=0;bi<roomItems.length;bi++){
+        var p=roomItems[bi]; if(allowedPair(p,it2)) continue;
+        if(obbOverlap(p,it2,GAP)){bad=true;break;}
+      }
       if(bad) continue;
       it2.g=gid; F().items.push(it2); roomItems.push(it2); got++;
     }
@@ -531,6 +592,76 @@
   }
 
   function aabbOverlap(o,p,m){var a=bbox(o),b=bbox(p);return Math.abs(a.x-b.x)<(a.w+b.w)/2+m && Math.abs(a.y-b.y)<(a.h+b.h)/2+m;}
+  /* rotation-aware overlap: separating-axis test on the two oriented rectangles,
+     each inflated by half the required clearance margin */
+  function obbOverlap(a,b,m){
+    var aa=a.ang||0, ba=b.ang||0;
+    var axc=Math.cos(aa),axs=Math.sin(aa),bxc=Math.cos(ba),bxs=Math.sin(ba);
+    var axes=[[axc,axs],[-axs,axc],[bxc,bxs],[-bxs,bxc]];
+    var dx=b.x-a.x, dy=b.y-a.y;
+    var ahw=a.w/2+m/2, ahh=a.h/2+m/2, bhw=b.w/2+m/2, bhh=b.h/2+m/2;
+    for(var i=0;i<4;i++){
+      var ux=axes[i][0], uy=axes[i][1];
+      var ra=ahw*Math.abs(ux*axc+uy*axs)+ahh*Math.abs(-ux*axs+uy*axc);
+      var rb=bhw*Math.abs(ux*bxc+uy*bxs)+bhh*Math.abs(-ux*bxs+uy*bxc);
+      if(Math.abs(ux*dx+uy*dy)>ra+rb) return false;
+    }
+    return true;
+  }
+  /* pairs that are ALLOWED to touch/overlap by design */
+  var ADJ_OK=[["Counter","Sink"],["Counter","Stove"],["Counter","Fridge"],["Counter","Base cabinet"],["Counter","Wall cabinet"],
+    ["Bed","Nightstand"],["King bed","Nightstand"],["Single bed","Nightstand"],
+    ["Office desk","Office chair"],["Desk","Chair"],["Dining table","Chair"],["Dining table 6","Chair"],
+    ["Meeting table","Office chair"],["Island","Chair"]];
+  function allowedPair(a,b){
+    if(a.type==="Rug"||b.type==="Rug") return true;
+    for(var i=0;i<ADJ_OK.length;i++){var p=ADJ_OK[i];
+      if((a.type===p[0]&&b.type===p[1])||(a.type===p[1]&&b.type===p[0])) return true;}
+    return false;
+  }
+  /* clearance zones in front of doors/openings that serve this room */
+  function doorZonesFor(r){
+    var zs=[], segs=[];
+    if(r.poly){ for(var i=0;i<r.poly.length;i++){ segs.push([r.poly[i],r.poly[(i+1)%r.poly.length]]); } }
+    else{ var L=r.x-r.w/2,Rt=r.x+r.w/2,Tp=r.y-r.h/2,B=r.y+r.h/2;
+      segs=[[{x:L,y:Tp},{x:Rt,y:Tp}],[{x:Rt,y:Tp},{x:Rt,y:B}],[{x:Rt,y:B},{x:L,y:B}],[{x:L,y:B},{x:L,y:Tp}]]; }
+    F().doors.concat(F().openings||[]).forEach(function(d){
+      for(var i=0;i<segs.length;i++){
+        if(projSeg({x:d.x,y:d.y},segs[i][0],segs[i][1]).d<26){
+          zs.push({x:d.x,y:d.y,rr:(d.len||46)*0.8+8}); return;
+        }
+      }
+    });
+    return zs;
+  }
+  function inDoorZone(it,zs){
+    if(it.type==="Rug") return false;
+    for(var i=0;i<zs.length;i++){
+      if(Math.hypot(it.x-zs[i].x,it.y-zs[i].y)<zs[i].rr+Math.max(it.w,it.h)/2) return true;
+    }
+    return false;
+  }
+  /* keep anchor furniture apart: on a clash, slide the item along its own axis
+     in growing steps; drop it if no clear position exists */
+  function settleAnchors(r,placed,zones){
+    var kept=[];
+    placed.forEach(function(it){
+      var ux=Math.cos(it.ang||0), uy=Math.sin(it.ang||0), bx=it.x, by=it.y;
+      for(var t=0;t<11;t++){
+        var k=(t===0)?0:(t%2?-1:1)*Math.ceil(t/2)*14;
+        it.x=bx+ux*k; it.y=by+uy*k;
+        if(!fitsInRoom(r,it)) continue;
+        if(inDoorZone(it,zones)) continue;
+        var hit=false;
+        for(var j=0;j<kept.length;j++){ if(!allowedPair(it,kept[j])&&obbOverlap(it,kept[j],4)){hit=true;break;} }
+        if(!hit){ kept.push(it); return; }
+      }
+    });
+    return kept;
+  }
+  var SEATISH={"Armchair":1,"Chair":1,"Office chair":1};
+  var WALLISH={"Bookshelf":1,"Wardrobe":1,"Filing cabinet":1,"Counter":1,"TV unit":1,"Shelving":1,"Base cabinet":1,"Crate":1};
+  var CORNERISH={"Plant":1};
   function rotPt(px,py,cx,cy,a){var s=Math.sin(a),co=Math.cos(a),dx=px-cx,dy=py-cy;return {x:cx+dx*co-dy*s,y:cy+dx*s+dy*co};}
   function ownCenter(o){if(o.kind==="room"&&o.poly){var b=polyBBox(o.poly);return {x:b.x,y:b.y};}return {x:o.x,y:o.y};}
   function unionCenter(list){var a=1e9,b=1e9,c=-1e9,d=-1e9;list.forEach(function(o){var bb=bbox(o);a=Math.min(a,bb.x-bb.w/2);b=Math.min(b,bb.y-bb.h/2);c=Math.max(c,bb.x+bb.w/2);d=Math.max(d,bb.y+bb.h/2);});return {x:(a+c)/2,y:(b+d)/2};}
@@ -547,7 +678,7 @@
     if(o.kind==="room"){html+='<p class="pt">'+(o.poly?"Polygon room":"Room")+'</p>';html+=field("Name","name",o.name,"text","");if(!o.poly){html+=field("Width","w",(o.w/PXM).toFixed(2),"number","m");html+=field("Height","h",(o.h/PXM).toFixed(2),"number","m");}
       var types=[["auto","Auto (by size)"],["living","Living room"],["bedroom","Bedroom"],["kitchen","Kitchen"],["bath","Bathroom"],["dining","Dining"],["office","Office"]];
       html+='<div class="field"><label>Type</label><select id="atype">'+types.map(function(t){return '<option value="'+t[0]+'"'+((o.atype||"auto")===t[0]?" selected":"")+'>'+t[1]+'</option>';}).join("")+'</select></div>';
-      html+='<div class="field"><label>Crowd</label><input id="dens" type="range" min="0" max="1" step="0.05" value="'+density+'" style="accent-color:#7c3aed"><span class="u" id="densv">'+Math.round(density*100)+'%</span></div>';
+      html+='<div class="field"><label title="Higher = more pieces, tighter spacing. Lower = fewer pieces, more breathing room.">Crowd</label><input id="dens" type="range" min="0" max="1" step="0.05" value="'+density+'" style="accent-color:#17181b"><span class="u" id="densv">'+Math.round(density*100)+'%</span></div>';
       html+='<button class="btn btn-primary" id="fillBtn" style="width:100%;margin-top:.4rem">⟳ Auto-fill (procedural)</button>';}
     else if(o.kind==="item"){html+='<p class="pt">'+o.type+'</p>';html+=field("Width","w",(o.w/PXM).toFixed(2),"number","m");html+=field("Depth","h",(o.h/PXM).toFixed(2),"number","m");}
     else if(o.kind==="door"){html+='<p class="pt">Door</p>';html+=field("Width","len",(o.len/PXM).toFixed(2),"number","m");html+='<button class="btn btn-soft" id="flipBtn" style="width:100%;margin-top:.3rem">Change swing direction</button>';}
@@ -620,7 +751,7 @@
     if(editPoly){var vi=vertexAt(p,editPoly);if(vi>=0){if(editPoly.poly.length>3){pushHistory();editPoly.poly.splice(vi,1);renderProps();draw();}return;}var ei=edgeAt(p,editPoly);if(ei>=0){pushHistory();editPoly.poly.splice(ei+1,0,{x:Math.round(p.x/GSNAP)*GSNAP,y:Math.round(p.y/GSNAP)*GSNAP});renderProps();draw();return;}}
     var o=hitTop(p);if(!o)return;
     if(o.kind==="item"){pushHistory();o.ang=((o.ang||0)+HALF)%(Math.PI*2);SEL=[o];clampSheet(o);renderProps();draw();}
-    else if(o.kind==="room"){if(o.poly){editPoly=o;SEL=[o];renderProps();draw();}else{var n=prompt("Room name:",o.name);if(n){pushHistory();o.name=n;SEL=[o];renderProps();draw();}}}});
+    else if(o.kind==="room"){if(o.poly){editPoly=o;SEL=[o];renderProps();draw();}else{eleveUI.prompt("Room name",{title:"Rename room",value:o.name,ok:"Rename"}).then(function(n){if(n){pushHistory();o.name=n;SEL=[o];renderProps();draw();}});}}});
   canvas.addEventListener("pointerleave",function(){hover=false;hoverObj=null;draw();});
   canvas.addEventListener("wheel",function(e){e.preventDefault();var p=pt(e);var f=e.deltaY<0?1.12:0.89;var ns=clamp(view.s*f,0.3,4);view.ox=p.cssx-p.x*ns;view.oy=p.cssy-p.y*ns;view.s=ns;draw();},{passive:false});
 
@@ -751,7 +882,7 @@
   var _draw=draw; draw=function(){_draw();updateEst();};
   function roomArea(r){return r.poly?polyArea(r.poly)/(PXM*PXM):(r.w/PXM)*(r.h/PXM);}
   function exportPDF(){
-    if(!(window.jspdf&&window.jspdf.jsPDF)){alert("PDF tools are still loading \u2014 please try again in a moment.");return;}
+    if(!(window.jspdf&&window.jspdf.jsPDF)){eleveUI.alert("PDF tools are still loading \u2014 please try again in a moment.",{title:"One moment"});return;}
     var JS=window.jspdf.jsPDF, doc=new JS({unit:"mm",format:"a4"}), W=210,Hp=297,M=14,y=0;
     function need(h){if(y+h>Hp-16){doc.addPage();y=16;}}
     doc.setFillColor(23,24,27);doc.rect(0,0,W,24,"F");
@@ -866,23 +997,34 @@
       else if(cur==="LWPOLYLINE"){ if(code==="10") cx=parseFloat(val); else if(code==="20"&&cx!=null){ verts.push({x:cx*PXM, y:SH-parseFloat(val)*PXM}); cx=null; } }
     }
     finish();
-    if(!rooms.length){ alert("No polyline rooms found. Import DXF files exported from Elevé, or that contain LWPOLYLINE outlines."); return; }
+    if(!rooms.length){ eleveUI.alert("No polyline rooms found. Import DXF files exported from Elevé, or that contain LWPOLYLINE outlines.",{title:"DXF import"}); return; }
     pushHistory();
     rooms.forEach(function(vs,idx){ F().rooms.push({kind:"room",poly:vs,name:"Imported "+(idx+1),atype:"auto"}); });
     SEL=[]; renderProps(); draw();
   }
-  document.getElementById("dxfImpInput").addEventListener("change",function(ev){ var f=ev.target.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(){ try{ importDXFText(String(r.result)); }catch(e){ alert("Could not read this DXF."); } }; r.readAsText(f); ev.target.value=""; });
+  document.getElementById("dxfImpInput").addEventListener("change",function(ev){ var f=ev.target.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(){ try{ importDXFText(String(r.result)); }catch(e){ eleveUI.alert("Could not read this DXF.",{title:"DXF import"}); } }; r.readAsText(f); ev.target.value=""; });
   document.getElementById("saveBtn").addEventListener("click",function(){ download("eleve-project.json", JSON.stringify({v:1,floors:floors,af:af,SW:SW,SH:SH,gid:gidCounter}), "application/json"); });
   window.__BUILDER={
     serialize:function(){ return {v:1,floors:floors,af:af,SW:SW,SH:SH,gid:gidCounter}; },
     load:function(o){ if(!o||!o.floors) return false; floors=o.floors; floors.forEach(function(fl){fl.rooms=fl.rooms||[];fl.items=fl.items||[];fl.doors=fl.doors||[];fl.windows=fl.windows||[];fl.openings=fl.openings||[];}); af=Math.min(o.af||0,floors.length-1); gidCounter=o.gid||0; if(o.SW&&o.SH)setSheet(o.SW,o.SH); SEL=[];hist=[];redo=[];editPoly=null; document.getElementById("floorTitle").textContent=F().name; renderFloors();renderProps();draw(); return true; }
   };
   var v3dBtn=document.getElementById("v3dBtn"); if(v3dBtn) v3dBtn.addEventListener("click",function(){
-    var _sv=view; view={s:1,ox:0,oy:0}; draw(); var _plan=canvas.toDataURL("image/png"); view=_sv; draw();
-    window.__FLOOR3D={rooms:F().rooms,doors:F().doors,windows:F().windows,openings:F().openings||[],SW:SW,SH:SH,PXM:PXM,planImg:_plan};
-    if(window.__open3D)window.__open3D(); else alert("3D view needs an internet connection to load (first time).");
+    /* snapshot every floor's plan at 1:1 — the 3D view opens at the floor you are
+       working on (showing it + everything below) and lets you navigate levels */
+    var _sv=view, _af=af; view={s:1,ox:0,oy:0};
+    var fls3d=floors.map(function(fl,i){
+      af=i; draw();
+      return { name:fl.name, rooms:fl.rooms, doors:fl.doors, windows:fl.windows,
+               openings:fl.openings||[], planImg:canvas.toDataURL("image/png") };
+    });
+    af=_af; view=_sv; draw();
+    window.__FLOOR3D={ floors:fls3d, af:_af,
+      /* legacy single-floor fields kept for compatibility */
+      rooms:F().rooms, doors:F().doors, windows:F().windows, openings:F().openings||[],
+      SW:SW, SH:SH, PXM:PXM, planImg:fls3d[_af]&&fls3d[_af].planImg };
+    if(window.__open3D)window.__open3D(); else eleveUI.alert("The 3D view needs an internet connection to load (first time).",{title:"3D view"});
   });
-  document.getElementById("loadInput").addEventListener("change",function(ev){ var file=ev.target.files[0]; if(!file)return; var r=new FileReader(); r.onload=function(){ try{ var o=JSON.parse(r.result); if(!o.floors)throw 0; floors=o.floors; floors.forEach(function(fl){fl.rooms=fl.rooms||[];fl.items=fl.items||[];fl.doors=fl.doors||[];fl.windows=fl.windows||[];fl.openings=fl.openings||[];}); af=Math.min(o.af||0,floors.length-1); gidCounter=o.gid||0; if(o.SW&&o.SH)setSheet(o.SW,o.SH); SEL=[];hist=[];redo=[];editPoly=null; document.getElementById("floorTitle").textContent=F().name; renderFloors();renderProps();draw(); }catch(err){ alert("Could not load this file."); } }; r.readAsText(file); ev.target.value=""; });
+  document.getElementById("loadInput").addEventListener("change",function(ev){ var file=ev.target.files[0]; if(!file)return; var r=new FileReader(); r.onload=function(){ try{ var o=JSON.parse(r.result); if(!o.floors)throw 0; floors=o.floors; floors.forEach(function(fl){fl.rooms=fl.rooms||[];fl.items=fl.items||[];fl.doors=fl.doors||[];fl.windows=fl.windows||[];fl.openings=fl.openings||[];}); af=Math.min(o.af||0,floors.length-1); gidCounter=o.gid||0; if(o.SW&&o.SH)setSheet(o.SW,o.SH); SEL=[];hist=[];redo=[];editPoly=null; document.getElementById("floorTitle").textContent=F().name; renderFloors();renderProps();draw(); }catch(err){ eleveUI.alert("Could not load this file.",{title:"Load project"}); } }; r.readAsText(file); ev.target.value=""; });
   updateEst();
 
   TEMPLATES["Living"](SW/2,SH/2).forEach(function(o){if(o.kind==="room")F().rooms.push(o);else F().items.push(o);});
@@ -975,7 +1117,7 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
 })();
 </script>
 <script>window.__SFX_VOLUME=0.03;</script>
-<script src="sfx.js"></script>
+<script src="sfx.js?v=6"></script>
 <script>
 /* builder: pencil scratch sound on mouse movement over the canvas */
 (function(){
@@ -1010,13 +1152,13 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
   wrap.addEventListener("pointerleave",function(){ target=0; });
 })();
 </script>
-<div id="view3d"><canvas id="cv3d"></canvas><button class="close3d" id="close3d">✕ Close 3D</button><button class="close3d" id="marker3d" style="right:auto;left:18px">✎ Marker</button><button class="close3d" id="undo3d" style="right:auto;left:150px">↶</button><button class="close3d" id="redo3d" style="right:auto;left:198px">↷</button><button class="close3d" id="clearmk3d" style="right:auto;left:246px">Clear marks</button><div class="hint3d">drag orbit · shift-drag pan · right-drag light direction · shift+right-drag light intensity · scroll zoom</div></div>
+<div id="view3d"><canvas id="cv3d"></canvas><button class="close3d" id="close3d">✕ Close 3D</button><button class="close3d" id="marker3d" style="right:auto;left:18px">✎ Marker</button><button class="close3d" id="undo3d" style="right:auto;left:150px">↶</button><button class="close3d" id="redo3d" style="right:auto;left:198px">↷</button><button class="close3d" id="clearmk3d" style="right:auto;left:246px">Clear marks</button><div id="lvl3d"><button id="lvlDown" aria-label="Lower level">▼</button><span class="lbl" id="lvlLbl">—</span><button id="lvlUp" aria-label="Higher level">▲</button></div><div class="hint3d">drag orbit · shift-drag pan · right-drag light · scroll zoom · ▲▼ change level</div></div>
 <script type="module">
 import * as THREE from "three";
 (function(){
   var wrap=document.getElementById("view3d"), cv=document.getElementById("cv3d");
   if(!wrap||!cv) return;
-  var renderer,scene,camera,group,raf,az=0.9,el=0.62,rad=1500,target,dl,sunAz=0.9,sunEl=0.95,sunR=3000;
+  var renderer,scene,camera,group,raf,az=0.9,el=0.62,rad=1500,target,dl,sunAz=0.9,sunEl=0.95,sunR=3000,lvl=0;
   var ray,ndc,marks,markGeo,markMat,markerOn=false,painting=false,curStroke=null,strokes=[],redoStrokes=[],lastPt=null;
   var dragging=false,px=0,py=0;
   function init(){
@@ -1042,7 +1184,7 @@ import * as THREE from "three";
     function undo3d(){ if(strokes.length){var g=strokes.pop();marks.remove(g);redoStrokes.push(g);} }
     function redo3d(){ if(redoStrokes.length){var g=redoStrokes.pop();marks.add(g);strokes.push(g);} }
     window.__mk3dUndo=undo3d; window.__mk3dRedo=redo3d;
-    window.addEventListener("keydown",function(e){ if(!wrap.classList.contains("on"))return; var k=(e.key||"").toLowerCase(); if((e.ctrlKey||e.metaKey)&&k==="z"){ e.preventDefault(); e.stopImmediatePropagation(); if(e.shiftKey)redo3d(); else undo3d(); } else if((e.ctrlKey||e.metaKey)&&k==="y"){ e.preventDefault(); e.stopImmediatePropagation(); redo3d(); } },true);
+    window.addEventListener("keydown",function(e){ if(!wrap.classList.contains("on"))return; var k=(e.key||"").toLowerCase(); if((e.ctrlKey||e.metaKey)&&k==="z"){ e.preventDefault(); e.stopImmediatePropagation(); if(e.shiftKey)redo3d(); else undo3d(); } else if((e.ctrlKey||e.metaKey)&&k==="y"){ e.preventDefault(); e.stopImmediatePropagation(); redo3d(); } else if(k==="arrowup"){ e.preventDefault(); setLvl(lvl+1); } else if(k==="arrowdown"){ e.preventDefault(); setLvl(lvl-1); } },true);
     cv.addEventListener("wheel",function(e){e.preventDefault();rad=Math.max(300,Math.min(6000,rad*(e.deltaY>0?1.1:0.9)));},{passive:false});
     window.addEventListener("resize",function(){ if(wrap.classList.contains("on"))size(); });
   }
@@ -1065,19 +1207,24 @@ import * as THREE from "three";
   function build(){
     if(group){scene.remove(group);}
     group=new THREE.Group(); scene.add(group);
-    var d=window.__FLOOR3D||{rooms:[],doors:[],windows:[],openings:[],SW:1080,SH:720,PXM:50};
+    var d=window.__FLOOR3D||{SW:1080,SH:720,PXM:50};
+    /* every floor stacks on top of the one below; falls back to the old single-floor payload */
+    var all=(d.floors&&d.floors.length)?d.floors:
+      [{rooms:d.rooms||[],doors:d.doors||[],windows:d.windows||[],openings:d.openings||[],planImg:d.planImg}];
+    /* show the navigated level + everything below it */
+    lvl=Math.max(0,Math.min(lvl,all.length-1));
+    var fls=all.slice(0,lvl+1);
     var SW=d.SW,SH=d.SH,PXM=d.PXM||50, cx=SW/2, cy=SH/2;
     var H=2.8*PXM, T=0.14*PXM, DH=2.1*PXM, WSILL=0.9*PXM, WHEAD=2.25*PXM;
+    var SLAB=6, LEVEL=H+SLAB, N=fls.length;
     var wallMat=new THREE.MeshStandardMaterial({color:0xf2f3f5,roughness:0.92,metalness:0});
-    // floor slab
-    var fw=SW, fh=SH; var floorGeo=new THREE.BoxGeometry(fw,6,fh); var floorMat=new THREE.MeshStandardMaterial({color:0xe4e6e9,roughness:1});
-    var fm=new THREE.Mesh(floorGeo,floorMat); fm.position.set(0,-3,0); fm.receiveShadow=true; group.add(fm);
-    if(d.planImg){ var im=new Image(); var tex=new THREE.Texture(im); if("SRGBColorSpace" in THREE) tex.colorSpace=THREE.SRGBColorSpace; im.onload=function(){tex.needsUpdate=true;}; im.src=d.planImg;
-      var pg=new THREE.PlaneGeometry(SW,SH); var pmat=new THREE.MeshStandardMaterial({map:tex,roughness:1,metalness:0}); var plane=new THREE.Mesh(pg,pmat); plane.rotation.x=-Math.PI/2; plane.position.y=0.5; plane.receiveShadow=true; group.add(plane); }
-    var ops=[];
-    (d.doors||[]).forEach(function(o){ops.push({x:o.x,y:o.y,ang:o.ang||0,len:o.len,kind:"door"});});
-    (d.windows||[]).forEach(function(o){ops.push({x:o.x,y:o.y,ang:o.ang||0,len:o.len,kind:"window"});});
-    (d.openings||[]).forEach(function(o){ops.push({x:o.x,y:o.y,ang:o.ang||0,len:o.len,kind:"open"});});
+    var slabMat=new THREE.MeshStandardMaterial({color:0xe4e6e9,roughness:1});
+    function roomShape(r){
+      var pts=r.poly?r.poly:[{x:r.x-r.w/2,y:r.y-r.h/2},{x:r.x+r.w/2,y:r.y-r.h/2},{x:r.x+r.w/2,y:r.y+r.h/2},{x:r.x-r.w/2,y:r.y+r.h/2}];
+      var sh=new THREE.Shape();
+      pts.forEach(function(p,i){ var X=p.x-cx, Y=cy-p.y; if(i)sh.lineTo(X,Y); else sh.moveTo(X,Y); });
+      return sh;
+    }
     function addBox(e,ux,uy,ang,t0,t1,z0,z1){
       var len=t1-t0; if(len<=1) return;
       var mx=e.a.x+ux*(t0+t1)/2, my=e.a.y+uy*(t0+t1)/2;
@@ -1087,40 +1234,105 @@ import * as THREE from "three";
       m.rotation.y=-ang; m.castShadow=true; m.receiveShadow=true;
       group.add(m);
     }
-    (d.rooms||[]).forEach(function(r){
-      edgesOf(r).forEach(function(e){
-        var ex=e.b.x-e.a.x,ey=e.b.y-e.a.y,L=Math.hypot(ex,ey); if(L<1)return;
-        var ux=ex/L,uy=ey/L,ang=Math.atan2(uy,ux);
-        // gaps on this edge
-        var gaps=[];
-        ops.forEach(function(o){
-          var t=(o.x-e.a.x)*ux+(o.y-e.a.y)*uy;
-          var perp=Math.abs((o.x-e.a.x)*(-uy)+(o.y-e.a.y)*ux);
-          var dot=Math.abs(Math.cos(o.ang)*ux+Math.sin(o.ang)*uy);
-          if(perp<T*1.6 && t>2 && t<L-2 && dot>0.8){ gaps.push({s:Math.max(0,t-o.len/2),e:Math.min(L,t+o.len/2),o:o}); }
+    fls.forEach(function(fl,Lv){
+      var baseY=Lv*LEVEL;
+      /* per-floor plan texture (UVs address the full sheet) */
+      var tex=null;
+      if(fl.planImg){ var im=new Image(); tex=new THREE.Texture(im); if("SRGBColorSpace" in THREE) tex.colorSpace=THREE.SRGBColorSpace;
+        (function(t){ im.onload=function(){ t.needsUpdate=true; }; })(tex); im.src=fl.planImg; }
+      if(Lv===0){
+        /* ground level: full site slab + the whole plan sheet */
+        var fm=new THREE.Mesh(new THREE.BoxGeometry(SW,SLAB,SH),slabMat);
+        fm.position.set(0,-SLAB/2,0); fm.receiveShadow=true; group.add(fm);
+        if(tex){ var pg=new THREE.PlaneGeometry(SW,SH); var pmat=new THREE.MeshStandardMaterial({map:tex,roughness:1,metalness:0});
+          var plane=new THREE.Mesh(pg,pmat); plane.rotation.x=-Math.PI/2; plane.position.y=0.5; plane.receiveShadow=true; group.add(plane); }
+      } else {
+        /* upper levels: the floor exists only INSIDE the rooms — one plate per room,
+           carrying just that room's slice of the plan drawing
+           (plate takes the lower 45% of the slab zone; the ceiling of the room
+            below takes the upper 55%, so together they read as one slab) */
+        (fl.rooms||[]).forEach(function(r){
+          var sh=roomShape(r);
+          var plate=new THREE.Mesh(new THREE.ExtrudeGeometry(sh,{depth:SLAB*0.45,bevelEnabled:false}),slabMat);
+          plate.rotation.x=-Math.PI/2; plate.position.y=baseY-SLAB*0.45;
+          plate.castShadow=true; plate.receiveShadow=true; group.add(plate);
+          if(tex){
+            var g=new THREE.ShapeGeometry(sh), ua=g.attributes.uv, pa=g.attributes.position;
+            for(var vi=0;vi<pa.count;vi++){ ua.setXY(vi,(pa.getX(vi)+SW/2)/SW,(pa.getY(vi)+SH/2)/SH); }
+            ua.needsUpdate=true;
+            var top=new THREE.Mesh(g,new THREE.MeshStandardMaterial({map:tex,roughness:1,metalness:0}));
+            top.rotation.x=-Math.PI/2; top.position.y=baseY+0.6; top.receiveShadow=true; group.add(top);
+          }
         });
-        gaps.sort(function(a,b){return a.s-b.s;});
-        var cur=0;
-        gaps.forEach(function(g){
-          if(g.s>cur) addBox(e,ux,uy,ang,cur,g.s,0,H);
-          if(g.o.kind==="door"){ addBox(e,ux,uy,ang,g.s,g.e,DH,H); }
-          else if(g.o.kind==="window"){ addBox(e,ux,uy,ang,g.s,g.e,0,WSILL); addBox(e,ux,uy,ang,g.s,g.e,WHEAD,H); }
-          cur=Math.max(cur,g.e);
+      }
+      /* every level below the top gets a ceiling over each room */
+      if(Lv<N-1){
+        (fl.rooms||[]).forEach(function(r){
+          var ceil=new THREE.Mesh(new THREE.ExtrudeGeometry(roomShape(r),{depth:SLAB*0.55,bevelEnabled:false}),slabMat);
+          ceil.rotation.x=-Math.PI/2; ceil.position.y=baseY+H;
+          ceil.castShadow=true; ceil.receiveShadow=true; group.add(ceil);
         });
-        if(cur<L) addBox(e,ux,uy,ang,cur,L,0,H);
+      }
+      var ops=[];
+      (fl.doors||[]).forEach(function(o){ops.push({x:o.x,y:o.y,ang:o.ang||0,len:o.len,kind:"door"});});
+      (fl.windows||[]).forEach(function(o){ops.push({x:o.x,y:o.y,ang:o.ang||0,len:o.len,kind:"window"});});
+      (fl.openings||[]).forEach(function(o){ops.push({x:o.x,y:o.y,ang:o.ang||0,len:o.len,kind:"open"});});
+      (fl.rooms||[]).forEach(function(r){
+        edgesOf(r).forEach(function(e){
+          var ex=e.b.x-e.a.x,ey=e.b.y-e.a.y,L=Math.hypot(ex,ey); if(L<1)return;
+          var ux=ex/L,uy=ey/L,ang=Math.atan2(uy,ux);
+          // gaps on this edge
+          var gaps=[];
+          ops.forEach(function(o){
+            var t=(o.x-e.a.x)*ux+(o.y-e.a.y)*uy;
+            var perp=Math.abs((o.x-e.a.x)*(-uy)+(o.y-e.a.y)*ux);
+            var dot=Math.abs(Math.cos(o.ang)*ux+Math.sin(o.ang)*uy);
+            if(perp<T*1.6 && t>2 && t<L-2 && dot>0.8){ gaps.push({s:Math.max(0,t-o.len/2),e:Math.min(L,t+o.len/2),o:o}); }
+          });
+          gaps.sort(function(a,b){return a.s-b.s;});
+          var cur=0;
+          gaps.forEach(function(g){
+            if(g.s>cur) addBox(e,ux,uy,ang,cur,g.s,baseY,baseY+H);
+            if(g.o.kind==="door"){ addBox(e,ux,uy,ang,g.s,g.e,baseY+DH,baseY+H); }
+            else if(g.o.kind==="window"){ addBox(e,ux,uy,ang,g.s,g.e,baseY,baseY+WSILL); addBox(e,ux,uy,ang,g.s,g.e,baseY+WHEAD,baseY+H); }
+            cur=Math.max(cur,g.e);
+          });
+          if(cur<L) addBox(e,ux,uy,ang,cur,L,baseY,baseY+H);
+        });
       });
     });
-    sunR=Math.max(SW,SH)*3; updateSun();
-    var sc=dl.shadow.camera, R=Math.max(SW,SH)*1.05; sc.left=-R;sc.right=R;sc.top=R;sc.bottom=-R;sc.near=sunR*0.15;sc.far=sunR*2.4; sc.updateProjectionMatrix();
-    target=new THREE.Vector3(0,H*0.35,0);
-    rad=Math.max(SW,SH)*1.35;
+    sunR=Math.max(SW,SH)*3+ N*LEVEL; updateSun();
+    var sc=dl.shadow.camera, R=Math.max(SW,SH)*1.05 + (N-1)*LEVEL*0.5; sc.left=-R;sc.right=R;sc.top=R;sc.bottom=-R;sc.near=sunR*0.15;sc.far=sunR*2.6; sc.updateProjectionMatrix();
+    target=new THREE.Vector3(0, H*0.35 + (N-1)*LEVEL*0.5, 0);
+    rad=Math.max(SW,SH)*(1.35 + (N-1)*0.22);
   }
   function loop(){ raf=requestAnimationFrame(loop);
     camera.position.set(target.x+rad*Math.cos(el)*Math.sin(az), target.y+rad*Math.sin(el), target.z+rad*Math.cos(el)*Math.cos(az));
     camera.lookAt(target); renderer.render(scene,camera);
   }
-  window.__open3D=function(){ if(!renderer)init(); wrap.classList.add("on"); size(); build(); if(!raf)loop(); };
-  document.getElementById("close3d").addEventListener("click",function(){ wrap.classList.remove("on"); if(raf){cancelAnimationFrame(raf);raf=null;} });
+  /* level navigation inside the 3D view */
+  function lvlCount(){ var d=window.__FLOOR3D||{}; return (d.floors&&d.floors.length)||1; }
+  function lvlUI(){
+    var d=window.__FLOOR3D||{}, n=lvlCount();
+    lvl=Math.max(0,Math.min(lvl,n-1));
+    var lb=document.getElementById("lvlLbl");
+    if(lb){ var nm=(d.floors&&d.floors[lvl]&&d.floors[lvl].name)||("Level "+(lvl+1)); lb.textContent=nm+" · "+(lvl+1)+"/"+n; }
+    var up=document.getElementById("lvlUp"), dn=document.getElementById("lvlDown");
+    if(up)up.disabled=(lvl>=n-1); if(dn)dn.disabled=(lvl<=0);
+  }
+  function setLvl(k){ var n=lvlCount(), nk=Math.max(0,Math.min(k,n-1)); if(nk===lvl)return; lvl=nk; lvlUI(); build(); }
+  var _lu=document.getElementById("lvlUp"), _ld=document.getElementById("lvlDown");
+  if(_lu)_lu.addEventListener("click",function(){ setLvl(lvl+1); });
+  if(_ld)_ld.addEventListener("click",function(){ setLvl(lvl-1); });
+
+  window.__open3D=function(){
+    var d=window.__FLOOR3D||{};
+    lvl=(typeof d.af==="number")?d.af:lvlCount()-1;
+    if(!renderer)init();
+    wrap.classList.add("on"); document.body.classList.add("v3d-on");
+    size(); lvlUI(); build(); if(!raf)loop();
+  };
+  document.getElementById("close3d").addEventListener("click",function(){ wrap.classList.remove("on"); document.body.classList.remove("v3d-on"); if(raf){cancelAnimationFrame(raf);raf=null;} });
   document.getElementById("marker3d").addEventListener("click",function(){ markerOn=!markerOn; this.style.background=markerOn?"#d23b3b":"rgba(255,255,255,.7)"; this.style.color=markerOn?"#fff":"#17181b"; cv.style.cursor=markerOn?"crosshair":""; });
   document.getElementById("clearmk3d").addEventListener("click",function(){ if(marks){while(marks.children.length)marks.remove(marks.children[0]);} strokes=[];redoStrokes=[];curStroke=null; });
   document.getElementById("undo3d").addEventListener("click",function(){ if(window.__mk3dUndo)window.__mk3dUndo(); });

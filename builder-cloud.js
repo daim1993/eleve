@@ -28,24 +28,35 @@
     bar.appendChild(yes); bar.appendChild(no); document.body.appendChild(bar);
   }
 
-  /* auth (login, else auto-register) */
+  /* auth (sign-in only — accounts are issued by the studio) — branded dialogs */
   function ensureAuth(cb){
     var t=token(); if(t) return cb(t);
-    var email=prompt("Email (to save projects to the cloud):"); if(!email) return;
-    var pw=prompt("Password (6+ chars). New here? an account is created automatically:"); if(!pw) return;
-    fetch(base+"/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,password:pw})})
-      .then(function(r){ if(r.ok) return r.json();
-        return fetch(base+"/api/auth/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,password:pw})}).then(function(r2){ if(!r2.ok) return r2.json().then(function(e){throw e;}); return r2.json(); }); })
-      .then(function(j){ localStorage.setItem(TK,j.token); toast("Signed in ✓"); cb(j.token); })
-      .catch(function(e){ alert((e&&e.error)||"Sign-in failed — is the server running? (cd server && npm start)"); });
+    eleveUI.prompt("Email — the account the studio set up for you.",{title:"Cloud account",type:"email",placeholder:"you@email.com",ok:"Continue"}).then(function(email){
+      if(!email) return;
+      eleveUI.prompt("Password — use the sign-in details from the studio.",{title:"Cloud account",type:"password",ok:"Sign in"}).then(function(pw){
+        if(!pw) return;
+        fetch(base+"/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email,password:pw})})
+          .then(function(r){ return r.json().then(function(j){ if(!r.ok) throw j; return j; }); })
+          .then(function(j){ localStorage.setItem(TK,j.token); toast("Signed in ✓"); cb(j.token); })
+          .catch(function(e){ eleveUI.alert((e&&e.error==="Invalid credentials")?"Unknown email or wrong password — cloud accounts are set up by the studio.":((e&&e.error)||"Sign-in failed — is the server running? (cd server && npm start)"),{title:"Cloud account"}); });
+      });
+    });
   }
 
   function cloudSave(){ ensureAuth(function(tok){ var data=B().serialize(); var pid=null; try{pid=localStorage.getItem(PK);}catch(e){}
-    if(pid){ api("/projects/"+pid,"PUT",{data:data},tok).then(function(r){ if(r.status===404){ localStorage.removeItem(PK); return cloudSave(); } if(!r.ok) throw 0; return r.json(); }).then(function(){ toast("Cloud saved ✓ (version added)"); }).catch(function(){ alert("Save failed."); }); }
-    else { var nm=prompt("Name this project:","Elevé plan")||"Elevé plan"; api("/projects","POST",{name:nm,data:data},tok).then(function(r){ if(r.status===402) return r.json().then(function(e){alert(e.error);}); if(!r.ok) throw 0; return r.json(); }).then(function(j){ if(j&&j.id){ localStorage.setItem(PK,j.id); toast("Saved to cloud ✓"); } }).catch(function(){ alert("Save failed."); }); }
+    if(pid){ api("/projects/"+pid,"PUT",{data:data},tok).then(function(r){ if(r.status===404){ localStorage.removeItem(PK); return cloudSave(); } if(!r.ok) throw 0; return r.json(); }).then(function(){ toast("Cloud saved ✓ (version added)"); }).catch(function(){ eleveUI.alert("Save failed.",{title:"Cloud save"}); }); }
+    else { eleveUI.prompt("Name this project",{title:"Cloud save",value:"Elevé plan",ok:"Save"}).then(function(nm){
+      if(nm===null) return; nm=(nm||"").trim()||"Elevé plan";
+      api("/projects","POST",{name:nm,data:data},tok).then(function(r){ if(r.status===402) return r.json().then(function(e){eleveUI.alert(e.error,{title:"Cloud save"});}); if(!r.ok) throw 0; return r.json(); }).then(function(j){ if(j&&j.id){ localStorage.setItem(PK,j.id); toast("Saved to cloud ✓"); } }).catch(function(){ eleveUI.alert("Save failed.",{title:"Cloud save"}); });
+    }); }
   }); }
-  function myProjects(){ ensureAuth(function(tok){ api("/projects","GET",null,tok).then(function(r){return r.json();}).then(function(j){ var list=j.projects||[]; if(!list.length){ alert("No cloud projects yet — use Cloud save first."); return; } var msg=list.map(function(p,i){return (i+1)+". "+p.name+"  ("+new Date(p.updatedAt).toLocaleDateString()+", "+p.versions+" versions)";}).join("\n"); var pick=prompt("Your projects:\n"+msg+"\n\nType a number to open:"); var idx=parseInt(pick,10)-1; if(isNaN(idx)||!list[idx]) return; var id=list[idx].id; api("/projects/"+id,"GET",null,tok).then(function(r){return r.json();}).then(function(pj){ if(pj&&pj.project){ B().load(pj.project.data); localStorage.setItem(PK,id); toast("Opened: "+pj.project.name); } }); }).catch(function(){ alert("Could not load projects."); }); }); }
-  function shareProj(){ ensureAuth(function(tok){ var pid=null; try{pid=localStorage.getItem(PK);}catch(e){} if(!pid){ alert("Cloud save first, then Share."); return; } api("/projects/"+pid+"/share","POST",null,tok).then(function(r){return r.json();}).then(function(j){ if(j&&j.shareId){ var url=location.origin+"/builder.html?share="+j.shareId; try{navigator.clipboard.writeText(url);}catch(e){} prompt("Read-only share link (copied to clipboard):",url); } }); }); }
+  function myProjects(){ ensureAuth(function(tok){ api("/projects","GET",null,tok).then(function(r){return r.json();}).then(function(j){ var list=j.projects||[]; if(!list.length){ eleveUI.alert("No cloud projects yet — use Cloud save first.",{title:"Projects"}); return; }
+    var items=list.map(function(p){ return p.name+"  ·  "+new Date(p.updatedAt).toLocaleDateString()+"  ·  "+p.versions+" versions"; });
+    eleveUI.choose("Pick a project to open.",items,{title:"Your projects"}).then(function(idx){
+      if(idx==null||!list[idx]) return; var id=list[idx].id;
+      api("/projects/"+id,"GET",null,tok).then(function(r){return r.json();}).then(function(pj){ if(pj&&pj.project){ B().load(pj.project.data); localStorage.setItem(PK,id); toast("Opened: "+pj.project.name); } });
+    }); }).catch(function(){ eleveUI.alert("Could not load projects.",{title:"Projects"}); }); }); }
+  function shareProj(){ ensureAuth(function(tok){ var pid=null; try{pid=localStorage.getItem(PK);}catch(e){} if(!pid){ eleveUI.alert("Cloud save first, then Share.",{title:"Share link"}); return; } api("/projects/"+pid+"/share","POST",null,tok).then(function(r){return r.json();}).then(function(j){ if(j&&j.shareId){ var url=location.origin+"/builder.html?share="+j.shareId; try{navigator.clipboard.writeText(url);}catch(e){} eleveUI.prompt("Read-only share link — copied to your clipboard.",{title:"Share link",value:url,readonly:true,ok:"Done",cancel:"Close"}); } }); }); }
 
   function onboard(){
     var ov=document.createElement("div");

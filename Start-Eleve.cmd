@@ -12,6 +12,26 @@ if not exist "%~dp0server\server.js" (
   echo     Make sure this .cmd is in the 'website interior' folder.
   goto END
 )
+
+rem --- is the site already running on port 4000? (checks IPv4 AND IPv6) ---
+set "PIDON="
+for /f "tokens=5" %%p in ('netstat -ano ^| findstr /r /c:"TCP.*:4000 .*LISTENING"') do set "PIDON=%%p"
+if defined PIDON (
+  echo [!] The Eleve server is ALREADY running on %URL% ^(PID %PIDON%^).
+  echo.
+  choice /c RO /t 8 /d R /m "RESTART it with the latest code [R], or just Open the browser [O]"
+  if errorlevel 2 (
+    start "" %URL%
+    echo      Leave the other Eleve window open. You can close THIS one.
+    goto END
+  )
+  echo [..] Stopping the old server ^(PID %PIDON%^)...
+  taskkill /pid %PIDON% /f >nul 2>nul
+  timeout /t 1 >nul
+  echo [ok] Old server stopped - starting fresh with the latest code.
+  echo.
+)
+
 cd /d "%~dp0server"
 where node >nul 2>nul
 if errorlevel 1 (
@@ -44,7 +64,11 @@ if defined CHROME (
 )
 node server.js
 echo.
-echo [server stopped]
+echo ============================================
+echo   The Eleve server has stopped.
+echo   ^(You closed it, or it hit an error above.^)
+echo   To start again: just run this file once more.
+echo ============================================
 :END
 echo.
 pause

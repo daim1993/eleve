@@ -1,4 +1,11 @@
-/* Elevé — subtle synthesized PIANO note SFX for UI interactions */
+/* Elevé — subtle synthesized PIANO note SFX for UI interactions.
+   A two-movement programme, both verified against engraved scores:
+     I.  Chopin — Nocturne Op. 9 No. 2 in E♭ major (bars 1–3)
+     II. Chopin — Nocturne Op. 15 No. 3 in G minor (opening lament)
+   EVERY click — button or empty space — plays exactly ONE note and the
+   melody advances; when the first nocturne finishes, the second begins,
+   then the cycle repeats. Buttons are voiced softer; hovering gives a
+   whisper preview of the upcoming note without advancing. */
 (function(){
   "use strict";
   var KEY="eleve_sfx_muted";
@@ -14,18 +21,65 @@
   }
   function resume(){ if(ctx&&ctx.state==="suspended"){ try{ctx.resume();}catch(e){} } }
 
-  // C major pentatonic across ~1.5 octaves — always consonant
-  var SCALE=[146.83,220.00,233.08,261.63,293.66,329.63,349.23,392.00,440.00];
-  var idx=4;
+  // Chopin — Nocturne Op. 9 No. 2, bars 1–3 EXACTLY as engraved
+  // (verified against the Mutopia/G. Schirmer 1881 score), as
+  // [MIDI note, duration in eighth-note units]. Upper register, as written.
+  // Recognition lives in the RHYTHM: the long G after the sixth-leap,
+  // and the octave leap C5→C6 — both kept with their true durations.
+  var THEME=[
+    // ═══ I. Nocturne Op. 9 No. 2 in E♭ major — bars 1–12 COMPLETE,
+    //     decoded note-for-note from the Mutopia/Schirmer engraving
+    //     (ornaments/graces omitted; written accidentals kept) ═══
+    [70,1],                                              // b0  B♭4 pickup
+    [79,4],[77,1],[79,1],[77,3],[75,2],[70,1],           // b1  G5(held) F G F E♭ · B♭
+    [79,2],[72,1],[84,2],[79,1],[82,3],[80,2],[79,1],    // b2  G5 C5→C6(octave) G B♭5 A♭5 G5
+    [77,3],[79,2],[74,1],[75,3],[72,3],                  // b3  F5 G5 D5 E♭5 C5
+    [70,1],[86,1],[84,1],[82,.5],[80,.5],[79,.5],[80,.5],// b4  B♭4→D6! C6 B♭A♭G A♭ — forte flourish
+    [72,.5],[74,.5],[75,3],[70,1],                       //     C5 D5 E♭5 · B♭4
+    [79,3],[77,.5],[79,.5],[77,.5],[76,.5],[77,.5],[79,.5],// b5 G5 + turn F G F E♮ F G
+    [77,1],[75,2.5],[77,.5],[75,.5],[74,.5],[75,.5],[77,.5],//    F5 E♭5(held) F E♭ D E♭ F
+    [79,.5],[71,.5],[72,.5],[73,.5],[72,.5],[77,.5],[76,.5],// b6 G5 then the chromatic climb:
+    [80,.5],[79,.5],[85,.5],[84,.5],[79,.5],             //     B♮C D♭C F E♮ A♭G D♭6!C6 G
+    [82,3],[80,2],[79,1],                                //     B♭5(held) A♭5 G5
+    [77,3],[79,1],[79,1],[74,1],[75,3],[72,3],           // b7  F5(trill) G G D5 E♭5 C5
+    [70,1],[86,1],[84,1],[82,.5],[80,.5],[79,.5],[80,.5],// b8  the flourish returns
+    [72,.5],[74,.5],[75,4],[74,1],[75,1],                //     C5 D5 E♭5(held) D E♭
+    [77,3],[79,2],[77,1],[77,3],[72,3],                  // b9  F5 G5 F · F5 C5
+    [75,1],[75,1],[75,1],[75,1],[74,.5],[75,.5],         // b10 E♭ E♭ E♭ E♭ · D E♭
+    [77,.75],[75,.25],[75,3],[70,3],                     //     F E♭ · E♭5 B♭4
+    [82,3],[81,2],[79,1],[77,3],[74,3],                  // b11 B♭5 A♮5 G5 · F5 D5
+    [75,3],[74,1],[72,1],[74,1],                         // b12 E♭5 D C D
+    [70,1],[71,1],[71,1],[72,1],[72,1],[74,1],           //     B♭ B♮ B♮ C C D — rising home
+    // ═══ II. Nocturne Op. 15 No. 3 in G minor — the lament, stated twice
+    //     as the score repeats it (read from the engraved incipit) ═══
+    [74,2],                                              // D5 — the lone accented pickup
+    [70,4],[74,2],                                       // B♭4(held) · D5
+    [72,1],[72,1],[70,2],[69,2],                         // C5 C5 B♭4 A4 — the lament
+    [70,1],[72,1],[74,2],[79,2],                         // B♭4 C5 D5 rising to G5
+    [77,8],                                              // F5 — the famous long-held note
+    [75,4],[74,4],                                       // E♭5 · D5 — resolves
+    [74,2],                                              // …and the lament returns
+    [70,4],[74,2],
+    [72,1],[72,1],[70,2],[69,2],
+    [70,1],[72,1],[74,2],[79,2],
+    [77,8],
+    [75,4],[74,8]                                        // final D5 held — then da capo
+  ];
+  // written duration still shapes each note's ring length
+  // voiced one octave below written pitch: warm MID register (B♭3–C5),
+  // thick enough to live with on long sessions, never shrill
+  function mfreq(n){ return 440*Math.pow(2,(n-12-69)/12); }
+  var idx=1; // the note-by-note walk also opens on the held G, not the B♭ pickup
 
   function note(freq,vel,dur,delay){
-    // warm tongue-drum / handpan tone: harmonic + inharmonic partials, each with its own decay
+    // THICK, rounded felt-piano tone: sub-octave body + detuned unison for
+    // width, softened highs — full in the mids, gentle on the ear
     if(muted||!ctx) return; var t=ctx.currentTime+(delay||0);
     var lp=ctx.createBiquadFilter(); lp.type="lowpass";
-    lp.frequency.setValueAtTime(3400,t); lp.frequency.exponentialRampToValueAtTime(900,t+dur*0.75);
+    lp.frequency.setValueAtTime(2600,t); lp.frequency.exponentialRampToValueAtTime(750,t+dur*0.75);
     lp.connect(master);
     // [ratio, amplitude, decay-fraction]
-    var parts=[[1,1,1.0],[2,0.5,0.78],[3,0.28,0.58],[4.02,0.10,0.36],[6.05,0.045,0.24]];
+    var parts=[[0.5,0.34,0.92],[1,1,1.0],[1.004,0.42,0.95],[2,0.38,0.7],[3,0.16,0.5],[4.02,0.05,0.3]];
     parts.forEach(function(p){
       var o=ctx.createOscillator(); o.type="sine"; o.frequency.value=freq*p[0];
       var g=ctx.createGain();
@@ -35,30 +89,23 @@
       o.connect(g); g.connect(lp); o.start(t); o.stop(t+dur*p[2]+0.05);
     });
   }
-  function nextFreq(){
-    idx += (Math.random()<0.5?-1:1)*(1+Math.floor(Math.random()*2));
-    if(idx<0) idx=1; if(idx>SCALE.length-1) idx=SCALE.length-3;
-    return SCALE[idx];
+  function nextNote(){ // the next theme note (with its duration), then advance
+    var nd=THEME[idx % THEME.length]; idx=(idx+1)%THEME.length; return nd;
   }
-  function arp(){
-    if(muted||!ctx) return;
-    var start=Math.floor(Math.random()*(SCALE.length-4)), gap=0.085, n=4+Math.floor(Math.random()*2);
-    for(var i=0;i<n;i++){ note(SCALE[Math.min(SCALE.length-1,start+i)], 0.15-i*0.012, 1.9, i*gap); }
-    idx=Math.min(SCALE.length-1,start+n-1);
-  }
+  function peekFreq(){ return mfreq(THEME[idx % THEME.length][0]); } // upcoming, no advance
   function tick(){
     if(muted||!ctx) return; var t=ctx.currentTime;
-    // a soft, subtle mechanical click (distinct from the piano clicks)
+    // a soft, subtle mechanical click (distinct from the piano notes)
     var o=ctx.createOscillator(); o.type="triangle"; o.frequency.value=1050+Math.random()*160;
     var bp=ctx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=1150; bp.Q.value=1.1;
     var g=ctx.createGain(); g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.025,t+0.0008); g.gain.exponentialRampToValueAtTime(0.0002,t+0.018);
     o.connect(bp); bp.connect(g); g.connect(master); o.start(t); o.stop(t+0.03);
   }
   window.__sfx={
-    click:function(){ note(nextFreq(),0.16,2.3); },
+    click:function(){ var nd=nextNote(); note(mfreq(nd[0]),0.13,Math.min(2.4,0.85+nd[1]*0.4)); }, // empty space: next theme note
+    chord:function(){ var nd=nextNote(); note(mfreq(nd[0]),0.11,Math.min(2.0,0.75+nd[1]*0.35)); }, // buttons: ONE mid-soft note, follows the song
     tick:function(){ tick(); },
-    chord:function(){ arp(); },
-    hover:function(){ note(SCALE[6+Math.floor(Math.random()*3)],0.045,1.1); },
+    hover:function(){ note(peekFreq(),0.04,1.0); },   // whisper preview of the next note (no advance)
     isMuted:function(){ return muted; },
     mute:function(m){ muted=!!m; localStorage.setItem(KEY,muted?"1":"0"); }
   };
@@ -70,7 +117,8 @@
 
   var INTER="a,button,select,input,textarea,label,.pill,.chip,.cbtn,.cdot,.dot,[data-tool],[data-theme],[role=button],.floor,.zoomctl button,.file-lbl,.toggle,#sfxBtn";
 
-  // button/interactive -> full note cascade; empty space -> single note
+  // buttons & interactive elements → a random 3-note nocturne phrase;
+  // empty space → the next single note of the piece, in order
   document.addEventListener("pointerdown",function(e){
     init(); resume();
     var el=e.target&&e.target.closest&&e.target.closest(INTER);

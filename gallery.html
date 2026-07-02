@@ -6,7 +6,7 @@
 <title>Elevé — Project Gallery</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root{--violet:#a7abb3;--periwinkle:#bcc0c7;--blush:#cfd2d7;--sky:#c3c7ce;--bg1:#edeff2;--bg2:#f4f5f7;--bg3:#e8eaee;--ink:#17181b;--ink-soft:#3c3e44;--muted:#8b8f97}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -14,6 +14,7 @@
   a{color:inherit;text-decoration:none}
   .serif{font-family:"Playfair Display",serif}
   .gtext{color:var(--ink);-webkit-text-fill-color:currentColor}
+  h1 .gtext,h2 .gtext{font-family:"Playfair Display",serif;font-style:italic;font-weight:500}
   @keyframes shimmer{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
   .glass{background:linear-gradient(#ecedf0,#ecedf0) padding-box,linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,255,255,.2) 30%,rgba(23,24,27,.10) 68%,rgba(255,255,255,.55)) border-box;border:1.5px solid transparent;box-shadow:9px 9px 22px rgba(23,24,27,.09),-8px -8px 18px rgba(255,255,255,.85),inset 1px 1px 1.5px rgba(255,255,255,.92),inset -1.5px -1.5px 2px rgba(23,24,27,.06)}
 
@@ -27,12 +28,13 @@
   @keyframes d2{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-8vw,-6vh) scale(.95)}}
   @keyframes d3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,-8vh) scale(1.15)}}
 
-  header{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem;padding:.9rem 1.2rem;background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(170%);border-bottom:1px solid rgba(255,255,255,.5)}
-  header .logo{font-family:"Inter",sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;border:1px solid var(--ink);padding:.5rem .7rem;line-height:1;color:var(--ink)}
-  header nav{display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap}
-  header nav a{font-size:.9rem;color:var(--ink-soft);transition:color .3s}
+  header{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem;padding:.9rem 1.2rem;background:rgba(237,239,242,.72);backdrop-filter:blur(22px) saturate(170%);border-bottom:1px solid rgba(23,24,27,.1)}
+  header .logo{font-family:"JetBrains Mono",monospace;font-size:.78rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;border:1px solid var(--ink);padding:.5rem .7rem;line-height:1;color:var(--ink)}
+  header nav{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+  header nav a{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);transition:color .3s}
   header nav a:hover{color:var(--ink)}
-  header .back{padding:.5rem 1rem;border-radius:60px;border:1px solid rgba(43,47,69,.15);font-size:.85rem}
+  header .back{padding:.5rem 1rem;border:1px solid rgba(23,24,27,.35);font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.16em}
+  header .back:hover{background:var(--ink);color:#fff}
   @media(max-width:620px){
     header{padding:.7rem 1rem}
     header .logo{font-size:1.1rem}
@@ -52,7 +54,8 @@
   #seq{position:absolute;inset:0;width:100%;height:100%;display:block}
   .cover-veil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(237,239,242,.22),rgba(237,239,242,0) 35%,rgba(237,239,242,0) 70%,rgba(237,239,242,.18))}
   .cover-title{position:absolute;left:0;right:0;top:15vh;text-align:center;padding:0 1.5rem;z-index:3;will-change:transform,opacity}
-  .cover-title h1{font-family:"Playfair Display",serif;font-size:clamp(2.8rem,9vw,6rem);line-height:1;font-weight:600;color:var(--ink)}
+  .cover-title h1{font-family:"Playfair Display",serif;font-size:clamp(2.6rem,8.5vw,5.6rem);line-height:1.12;font-weight:600;color:var(--ink)}
+  .cover-title h1 .gtext{padding-right:.05em}
   .cover-title .eyebrow{margin-bottom:1rem}
   .cover-title .lead{color:var(--ink-soft);max-width:38rem;margin:1.25rem auto 0;font-size:1.02rem;line-height:1.6}
   .cover-cue{margin-top:1.5rem;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted)}
@@ -61,54 +64,57 @@
   .cover-btn:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
   @media(prefers-reduced-motion:reduce){.cover{height:100vh}}
 
-  .project{display:flex;flex-direction:column;gap:2.5rem;align-items:center;text-align:center;padding:4.5rem 0;border-top:1px solid rgba(43,47,69,.08)}
+  .project{display:flex;flex-direction:column;gap:2.5rem;align-items:center;text-align:center;padding:4.5rem 0;border-top:1px solid rgba(23,24,27,.1);position:relative}
+  .project::before{content:attr(data-idx);position:absolute;top:2.4rem;right:0;font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(3rem,8vw,5.5rem);line-height:1;color:rgba(23,24,27,.07);pointer-events:none}
   .project .info{max-width:46rem}
   .project .info .chips{justify-content:center}
   .project .carousel{width:100%}
 
-  .info .ptag{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-  .info h2{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,3.5vw,2.6rem);margin:.5rem 0 .2rem}
-  .info .loc{color:var(--ink);font-size:.9rem;margin-bottom:.8rem}
-  .info p{color:var(--ink-soft)}
+  .info .ptag{display:inline-flex;align-items:center;gap:.8rem;font-family:"JetBrains Mono",monospace;font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+  .info .ptag::before,.info .ptag::after{content:"";width:2rem;height:1px;background:var(--ink);opacity:.4}
+  .info h2{font-family:"Playfair Display",serif;font-size:clamp(1.9rem,3.8vw,2.8rem);line-height:1.15;margin:.6rem 0 .2rem}
+  .info h2 em{font-style:italic;font-weight:500;padding-right:.05em}
+  .info .loc{color:var(--ink);font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.9rem}
+  .info p{color:var(--ink-soft);line-height:1.7}
   .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.1rem}
-  .chip{background:rgba(139,147,248,.12);border:1px solid rgba(139,147,248,.25);border-radius:60px;padding:.25rem .8rem;font-size:.78rem;color:var(--ink-soft)}
+  .chip{background:transparent;border:1px solid var(--line,#d7d9de);padding:.3rem .75rem;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);transition:border-color .25s,color .25s}
+  .chip:hover{border-color:rgba(23,24,27,.45);color:var(--ink)}
 
   /* 3D card-stack carousel */
   .carousel{position:relative;height:470px;perspective:1700px;perspective-origin:50% 45%;user-select:none}
   .ring{position:absolute;inset:0;transform-style:preserve-3d;cursor:grab}
   .ring.grab{cursor:grabbing}
   .slide{position:absolute;top:52%;left:50%;width:384px;height:256px;margin:-128px 0 0 -192px;border-radius:1.4rem;overflow:hidden;
-    box-shadow:0 30px 70px rgba(60,60,110,.32);border:1px solid rgba(255,255,255,.7);will-change:transform,opacity;
+    box-shadow:0 30px 70px rgba(23,24,27,.28);border:1px solid rgba(255,255,255,.7);will-change:transform,opacity;
     transition:transform .75s cubic-bezier(.22,1,.36,1),opacity .6s ease,filter .6s ease,box-shadow .4s ease}
   .slide.front{cursor:zoom-in}
-  .slide.front:hover{box-shadow:0 42px 95px rgba(139,147,248,.42)}
-  .slide.chosen{box-shadow:0 55px 120px rgba(139,147,248,.5),0 0 0 3px rgba(139,147,248,.55)}
+  .slide.front:hover{box-shadow:0 42px 95px rgba(23,24,27,.4)}
+  .slide.chosen{box-shadow:0 55px 120px rgba(23,24,27,.45),0 0 0 1px rgba(23,24,27,.7)}
   .slide .img{position:absolute;inset:0}
   .slide .gloss{position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,255,255,.4),rgba(255,255,255,0) 42%);pointer-events:none}
   .slide .cap{position:absolute;left:0;right:0;bottom:0;padding:1.1rem 1.2rem 1rem;display:flex;align-items:flex-end;justify-content:space-between;gap:.6rem;
-    background:linear-gradient(to top,rgba(24,27,46,.74),rgba(24,27,46,.05) 70%,transparent);color:#fff}
+    background:linear-gradient(to top,rgba(23,24,27,.78),rgba(23,24,27,.05) 70%,transparent);color:#fff}
   .slide .cap .t{font-family:"Playfair Display",serif;font-size:1.2rem;line-height:1.1}
   .slide .cap .s{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;opacity:.8;margin-top:.15rem}
   .slide .exp{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;opacity:0;transform:translateY(4px);transition:.3s;white-space:nowrap}
   .slide.front .exp{opacity:.9;transform:none}
   .cnav{position:absolute;bottom:-1.3rem;left:50%;transform:translateX(-50%);display:flex;gap:.75rem;align-items:center;z-index:50}
-  .cbtn{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.7);background:rgba(255,255,255,.55);backdrop-filter:blur(14px);cursor:pointer;font-size:1.25rem;color:var(--ink);display:grid;place-items:center;transition:.25s}
-  .cbtn:hover{background:#fff;box-shadow:0 10px 28px rgba(139,147,248,.35);transform:translateY(-2px)}
-  .cdots{display:flex;gap:.45rem;align-items:center}
-  .cdot{width:8px;height:8px;border-radius:60px;background:rgba(43,47,69,.2);border:none;cursor:pointer;transition:.3s}
-  .cdot.on{width:28px;background:linear-gradient(90deg,var(--violet),var(--sky))}
+  .cbtn{width:48px;height:48px;border:1px solid rgba(23,24,27,.4);background:rgba(255,255,255,.55);backdrop-filter:blur(14px);cursor:pointer;font-size:1.15rem;color:var(--ink);display:grid;place-items:center;transition:.25s}
+  .cbtn:hover{background:var(--ink);color:#fff;box-shadow:0 10px 28px rgba(23,24,27,.3);transform:translateY(-2px)}
+  .cdots{display:flex;gap:.5rem;align-items:center}
+  .cdot{width:20px;height:2px;background:rgba(23,24,27,.2);border:none;cursor:pointer;transition:.3s;padding:0}
+  .cdot.on{width:32px;background:var(--ink)}
   @media(max-width:600px){.slide{width:300px;height:200px;margin:-100px 0 0 -150px}.carousel{height:400px}}
 
   /* lightbox */
-  #lb{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:5vw;background:rgba(20,22,40,.55);backdrop-filter:blur(16px);opacity:0;transition:opacity .35s ease}
+  #lb{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:5vw;background:rgba(23,24,27,.5);backdrop-filter:blur(16px);opacity:0;transition:opacity .35s ease}
   #lb.on{display:flex;opacity:1}
   .lb-card{position:relative;width:min(940px,92vw);aspect-ratio:16/10;border-radius:1.5rem;overflow:hidden;box-shadow:0 50px 130px rgba(0,0,0,.5);opacity:0;transform:scale(.55);transition:transform .55s cubic-bezier(.34,1.56,.64,1),opacity .4s ease}
   #lb.on .lb-card{transform:scale(1);opacity:1}
   .lb-img{position:absolute;inset:0}
-  .lb-cap{position:absolute;left:0;right:0;bottom:0;padding:1.8rem;background:linear-gradient(to top,rgba(20,22,40,.72),transparent);color:#fff;font-family:"Playfair Display",serif;font-size:clamp(1.3rem,3vw,1.8rem)}
-  .lb-x{position:absolute;top:1rem;right:1rem;width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.88);cursor:pointer;font-size:1.1rem;color:var(--ink)}
-
-  footer{position:relative;z-index:10;max-width:74rem;margin:3rem auto 0;padding:2rem 1.5rem;border-top:1px solid rgba(43,47,69,.1);color:var(--muted);font-size:.85rem;display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between}
+  .lb-cap{position:absolute;left:0;right:0;bottom:0;padding:1.8rem;background:linear-gradient(to top,rgba(23,24,27,.75),transparent);color:#fff;font-family:"Playfair Display",serif;font-size:clamp(1.3rem,3vw,1.8rem)}
+  .lb-x{position:absolute;top:1rem;right:1rem;width:44px;height:44px;border:none;background:rgba(255,255,255,.9);cursor:pointer;font-size:1.1rem;color:var(--ink);transition:.25s}
+  .lb-x:hover{background:var(--ink);color:#fff}
 
   .reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
   .reveal.in{opacity:1;transform:none}
@@ -132,6 +138,7 @@
 @keyframes cspin{to{transform:rotate(360deg)}}
 </style>
 <script src="cms.js"></script>
+<script src="motion.js" defer></script>
 <link rel="stylesheet" href="elevate.css">
 <meta name="description" content="Selected Elevé projects presented as an interactive 3D coverflow gallery.">
 <meta property="og:type" content="website">
@@ -155,6 +162,7 @@
     <a href="index.html#founder">Founder</a>
     <a href="materials.html">Materials</a>
     <a href="builder.html">Builder</a>
+    <a href="portal.html">Portal</a>
     <a href="index.html#contact" class="back">Contact</a>
   </nav>
 </header>
@@ -165,10 +173,10 @@
     <div id="coverLoad" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;z-index:2;background:linear-gradient(135deg,#edeff2,#e8eaee);transition:opacity .5s"><div style="width:42px;height:42px;border:2px solid rgba(23,24,27,.15);border-top-color:#17181b;border-radius:50%;animation:cspin 1s linear infinite"></div><div style="font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:#8b8f97">Loading gallery</div></div>
     <div class="cover-veil"></div>
     <div class="cover-title">
-      <p class="eyebrow">Selected work</p>
-      <h1>The <span class="gtext">gallery</span></h1>
-      <p class="lead" data-cms="gallery_intro">A walk through recent Elevé projects. Each is a 3D coverflow — it drifts on its own, swipe or use the arrows to glide through, pull the center card down to choose it, and click to scale it up.</p>
-      <button class="cover-btn" id="enterBtn">Enter the gallery</button>
+      <p class="eyebrow" data-reveal="fade">Selected work · 05 projects</p>
+      <h1 data-split>The <span class="gtext">gallery</span></h1>
+      <p class="lead" data-reveal style="--d:.45s" data-cms="gallery_intro">A walk through recent Elevé projects. Each is a 3D coverflow — it drifts on its own, swipe or use the arrows to glide through, pull the center card down to choose it, and click to scale it up.</p>
+      <button class="cover-btn" id="enterBtn" data-reveal style="--d:.6s" data-magnetic="0.2">Enter the gallery ↓</button>
     </div>
   </div>
 </section>
@@ -179,9 +187,16 @@
 
 <div id="lb"><div class="lb-card"><div class="lb-img"></div><div class="lb-cap"></div><button class="lb-x" aria-label="Close">✕</button></div></div>
 
-<footer>
-  <p>© <span id="yr"></span> Elevé Studio. All rights reserved.</p>
-  <p class="serif gtext">Where space becomes emotion</p>
+<footer class="e-footer">
+  <div class="ef-in">
+    <span class="ef-word" aria-hidden="true">GALLER<em>Y</em></span>
+    <div class="ef-bottom">
+      <span>© <span id="yr"></span> Elevé Studio. All rights reserved.</span>
+      <span class="ef-tag">Where space becomes emotion</span>
+      <span style="display:flex;gap:1.4rem;align-items:center"><a href="index.html" class="e-link">Home</a><a href="materials.html" class="e-link">Materials</a><a href="builder.html" class="e-link">Builder</a></span>
+      <span class="mono" data-e-time>Lisbon —:—</span>
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -212,8 +227,8 @@
   window.addEventListener("keydown",function(e){ if(e.key==="Escape") closeLightbox(); });
 
   var grads=[
-    ["#cdd3fb","#f0d4e6"],["#c7dcfa","#dfe7fb"],["#f3d2e6","#f6e3d6"],["#d8d4fb","#cdd9fb"],
-    ["#cdeef0","#d6eadf"],["#d3ecdb","#e6f0d6"],["#e7d9fb","#f6d9ea"],["#d2e3fb","#e9e2fb"]
+    ["#dcdfe4","#bfc4cb"],["#cdd1d7","#e4e6ea"],["#b7bcc4","#d9dce1"],["#e1e3e7","#c3c8cf"],
+    ["#c9cdd4","#e7e9ec"],["#d4d7dc","#b2b7bf"],["#e6e8eb","#c7cbd1"],["#c2c6cd","#dfe1e5"]
   ];
   var projects=[
     {name:"Aurora Penthouse",loc:"Residential · Lisbon",tag:"Interior",
@@ -239,11 +254,12 @@
   projects.forEach(function(p,pi){
     var sec=document.createElement("section");
     sec.className="project reveal"+(pi%2?" flip":"");
+    sec.setAttribute("data-idx","0"+(pi+1));
     var chips=p.chips.map(function(c){return '<span class="chip">'+c+'</span>';}).join("");
     sec.innerHTML=
       '<div class="info">'+
         '<p class="ptag">'+p.tag+' · 0'+(pi+1)+'</p>'+
-        '<h2>'+p.name+'</h2>'+
+        '<h2>'+p.name.replace(/ (\S+)$/,' <em>$1</em>')+'</h2>'+
         '<p class="loc">'+p.loc+'</p>'+
         '<p>'+p.desc+'</p>'+
         '<div class="chips">'+chips+'</div>'+
@@ -471,7 +487,7 @@ document.addEventListener("click",function(e){var a=e.target.closest?e.target.cl
   window.addEventListener("resize",function(){ target=Math.max(0,Math.min(maxY(),target)); });
 })();
 </script>
-<script src="sfx.js"></script>
+<script src="sfx.js?v=6"></script>
 <script src="site.js"></script>
 <script src="chrome.js"></script>
 </body>
